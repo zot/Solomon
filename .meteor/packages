@@ -7,3 +7,5 @@ standard-app-packages
 autopublish
 insecure
 coffeescript
+accounts-ui
+accounts-password
