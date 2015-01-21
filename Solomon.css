@@ -30,3 +30,15 @@
 	top:								400px;
 	width:								500px;
 }
+
+.character {
+	height:								100px;
+	position:							absolute;
+	width:								100px;
+}
+
+#me {
+	background-color:					#00f;
+	left:								200px;
+	top:								162px;
+}
