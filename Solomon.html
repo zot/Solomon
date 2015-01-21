@@ -3,11 +3,17 @@
 </head>
 
 <body>
-  {{> hello}}
+  {{> loginButtons}}
+	<div class="viewPort" id="localView">
+		Local View
+	</div>
+	<div class="viewPort" id="mapView">
+		Map View
+	</div>
+	<div class="viewPort" id="chatView">
+		Chat
+	</div>
+	<div class="viewPort" id="statsView">
+		stats
+	</div>
 </body>
-
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
-</template>

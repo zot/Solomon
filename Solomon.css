@@ -1,1 +1,32 @@
-/* CSS declarations go here */
+.viewPort {
+	border:								1px solid #000;
+	position:							absolute;
+}
+
+#mapView {
+	height:								375px;
+	left:								520px;
+	top:								10px;
+	width:								500px;
+}
+
+#localView {
+	height:								375px;
+	left:								10px;
+	top:								10px;
+	width:								500px;
+}
+
+#chatView {
+	height:								375px;
+	left:								10px;
+	top:								400px;
+	width:								500px;
+}
+
+#statsView {
+	height:								375px;
+	left:								520px;
+	top:								400px;
+	width:								500px;
+}
