@@ -2,8 +2,9 @@
 
     init = ->
       maze = new Meteor.Collection 'maze'
-      maze.insert
-        _id: 'master'
-        players: []
+      if !(maze.findOne 'master')
+        maze.insert
+          _id: 'master'
+          players: []
 
     init()
