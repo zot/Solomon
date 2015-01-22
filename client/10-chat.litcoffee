@@ -26,7 +26,9 @@
       tail = if user.speechTail then maze.findOne user.speechTail
       speech =
         _id: id
+        type: 'speech'
         from: Meteor.userId()
+        owner: Meteor.userId()
         prev: oldTail?._id
       user.speechTail = speech._id
       maze.update user._id, user

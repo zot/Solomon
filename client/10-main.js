@@ -34,13 +34,13 @@ Gui.receiveMessage = function (item) {
 
 Gui.chatLog = {
 	added: function (item) {
-		receiveMessage(item);
+                Gui.receiveMessage(item);
 	},
 	removed: function (item) {
-		console.log("chatLog removed");
+                console.log("chatLog removed: " + item._id);
 	},
 	changed: function (item) {
-		console.log("chatLog changed");			
+                console.log("chatLog changed: " + item._id);			
 	}
 };
 Gui.onLogin = function () {
