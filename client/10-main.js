@@ -1,6 +1,8 @@
 (function() {
 
 var Gui = Solomon.Gui = {};
+var speak = Solomon.Middleware.speak;
+var teamChat = Solomon.Middleware.teamChat;
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here..."
@@ -18,12 +20,17 @@ Gui.arrowKeyPressed = function (deltaX, deltaY) {
 };
 
 Gui.sendMessage = function (target) {
+	speak(target.val());
 	$(target).val("");
 };
 
 Gui.receiveMessage = function (item) {
 	var chatBox, content, playerID, newDiv;
-	chatBox = $('#teamChat .chatBody');
+	if (item.type === 'speech') {
+		chatBox = $('#speak .chatBody');
+	} else {
+		chatBox = $('#teamChat .chatBody');
+	}
 	playerID = item.from;
 	content = item.content;
 	newDiv = $("<div></div>");
@@ -34,7 +41,7 @@ Gui.receiveMessage = function (item) {
 
 Gui.chatLog = {
 	added: function (item) {
-                Gui.receiveMessage(item);
+		Gui.receiveMessage(item);
 	},
 	removed: function (item) {
                 console.log("chatLog removed: " + item._id);
