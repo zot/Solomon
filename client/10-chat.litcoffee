@@ -5,9 +5,11 @@
     exp = root.Middleware = {}
     user = null
     maze = null
+    players = null
 
     getUser = ->
-      if maze && root.subscribed
+      if maze && root.subscribed && Meteor.user()
+        players = root.players
         root.user = user = maze.findOne Meteor.userId()
         if !user
           root.user = user =
@@ -23,19 +25,23 @@
     onLogin = -> getUser()
 
     speak = (txt)->
-      id = new Meteor.Collection.ObjectID().toJSONValue()
-      tail = if user.speechTail then maze.findOne user.speechTail
+      #TODO make sure this is UTC at some point
+      time = Date.now()
+      for playerId, player of players
+        baseSpeak txt, Meteor.userId(), player, time
+
+    baseSpeak = (txt, from, toUser, time)->
+      tail = if toUser.speechTail then maze.findOne toUser.speechTail
       speech =
-        _id: id
+        _id: new Meteor.Collection.ObjectID().toJSONValue()
         type: 'speech'
-        #TODO make sure this is UTC at some point
-        time: Date.now()
+        time: time
         content: txt
-        from: Meteor.userId()
-        owner: Meteor.userId()
+        from: from
+        owner: toUser._id
         prev: oldTail?._id
-      user.speechTail = speech._id
-      maze.update user._id, user
+      toUser.speechTail = speech._id
+      maze.update toUser._id, toUser
       maze.insert speech
       if tail
         tail.next = speech._id
