@@ -1,5 +1,9 @@
 <head>
-  <title>Solomon</title>
+	<title>Solomon</title>
+	<link href="/reset.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/jquery-ui-1.11.2.custom/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+	<script src="/jquery-ui-1.11.2.custom/external/jquery/jquery.js"></script>
+	<script src="/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -13,7 +17,26 @@
 		Map View
 	</div>
 	<div class="viewPort" id="chatView">
-		Chat
+		<div id="chatTabs">
+			<ul>
+				<li><a href="#localChat">Local</a></li>
+				<li><a href="#groupChat">Group</a></li>
+			</ul>
+			<div id="localChat">
+				<div class="chatBody">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<input type="text" class="chatInput">
+			</div>
+			<div id="groupChat">
+				<div class="chatBody">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<input type="text" class="chatInput">
+			</div>
+		</div>
 	</div>
 	<div class="viewPort" id="statsView">
 		stats

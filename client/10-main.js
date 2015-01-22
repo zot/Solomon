@@ -1,3 +1,7 @@
+var g = {
+	DEFAULT_CHAT_TEXT : "Type chat message here..."
+}
+
 function arrowKeyPressed(deltaX, deltaY) {
 	var whatToMove, leftWas, topWas;
 	whatToMove = $('#localView div:not("#me")');
@@ -7,6 +11,10 @@ function arrowKeyPressed(deltaX, deltaY) {
 		$(this).css("left", leftWas - deltaX * 32);
 		$(this).css("top", topWas - deltaY * 32);
 	});
+}
+
+function sendMessage(target) {
+	$(target).val("");
 }
 
 $(document).keydown(function (event) {
@@ -27,4 +35,25 @@ $(document).keydown(function (event) {
 		return true;
 	}
 	return false;
+});
+
+$(document).ready(function () {
+	  $("#chatTabs").tabs();
+	  $(".chatInput").val(g.DEFAULT_CHAT_TEXT);
+	  $(".chatInput").focus(function () {
+		  $(this).removeClass("notEmpty");
+		  if ($(this).val() === g.DEFAULT_CHAT_TEXT) {
+			  $(this).val("");
+		  }
+	  }).blur(function () {
+		  if ($(this).val().trim() === "") {
+			  $(this).val(g.DEFAULT_CHAT_TEXT);
+		  } else {
+			  $(this).addClass("notEmpty");
+		  }
+	  }).keydown(function (event) {
+		  if (event.keyCode === 13) {
+			  sendMessage($(this));
+		  }
+	  });
 });
