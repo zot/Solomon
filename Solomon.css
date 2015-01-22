@@ -90,10 +90,29 @@
 }
 
 .inventoryItem, .vitalsItem, .personStats {
+	color:								#ff8;
 	display:							inline-block;
+	font-weight:						bold;
 	height:								64px;
 	outline:							1px solid #fff;
+	overflow:							hidden;
 	width:								64px;
+}
+
+.personStats {
+	font-size:							24px;
+}
+
+.personStats.billPic {
+	background-image:					url(/bill.jpg);
+}
+
+.personStats.royPic {
+	background-image:					url(/roy.jpg);
+}
+
+.personStats.rotemPic {
+	background-image:					url(/rotem.jpg);
 }
 
 #chatTabs {
@@ -183,6 +202,6 @@
 .ui-menu-item {
 	font-weight:						normal !important;
 }
-#dialog-confirm-share {
+#dialog-confirm-share, #dialog-agree-to-share {
 	display:							none;
 }

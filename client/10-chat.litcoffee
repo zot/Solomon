@@ -26,8 +26,8 @@
           _id: Meteor.userId()
           type: 'player'
           username: Meteor.user().username
-          x: 10
-          y: 10
+          x: 17
+          y: 23
         maze.insert user
       $(document).ready -> root.World.replaceWorld()
 

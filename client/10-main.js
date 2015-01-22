@@ -13,14 +13,29 @@ Gui.setMapSize = function(width, height) {
 	mapWidth = width;
 	mapHeight = height;
 }
+var shareMaps = Solomon.Middleware.shareMaps;
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here...",
 	OFFSET_X : 7,
 	OFFSET_Y : 5,
-	PLAYER_WIDTH: 32,
-	PLAYER_HEIGHT: 32,
-	revealedMap : []
+	revealedMap : [],
+	rgbMap : {
+		'e' : '#ddd',
+		'f' : '#aaa',
+		'p' : '#000',
+		'w' : '#000',
+		'x' : '#0f0',
+		'z' : '#040'
+	}
+/*
+ *	e "empty.png"
+	f "floor.png"
+	p "pit.png"
+	w "wall.png"
+	x "exit.png"				
+	z "food.png"
+ */
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
@@ -40,17 +55,29 @@ Gui.sendMessage = function (target) {
 
 Gui.playerMoved = function (player, map) {
 	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY;
-	playerX = player.X;
-	playerY = player.Y;
+	if (typeof player.x === 'undefined') {
+		return;
+	}
+	playerX = player.x;
+	playerY = player.y;
 	
 	topCornerX = playerX - Gui.g.OFFSET_X;
 	topCornerY = playerY - Gui.g.OFFSET_Y;
-	bottomCornerX = playerX + Gui.g.OFFSET_X + Gui.g.PLAYER_WIDTH;
-	bottomCornerY = playerY + Gui.g.OFFSET_Y + Gui.g.PLAYER_HEIGHT;
+	bottomCornerX = playerX + Gui.g.OFFSET_X + 1;
+	bottomCornerY = playerY + Gui.g.OFFSET_Y + 1;
 	
 	for (j = topCornerY; j < bottomCornerY; j++) {
 		for (i = topCornerX; i < bottomCornerX; i++) {
-			revealedMap[j][i] = map[i][j];
+			Gui.g.revealedMap[j][i] = map[i][j];
+			/*
+			 *	e "empty.png"
+				f "floor.png"
+				p "pit.png"
+				w "wall.png"
+				x "exit.png"				
+				z "food.png"
+			 */
+			Gui.context.fillStyle = Gui.g.rgbMap[map[i][j]];
 			Gui.context.fillRect(i * 5, j * 5, 5, 5);
 		}
 	}
@@ -127,6 +154,7 @@ function updatePlayer(item) {
 		var worldY = viewPortHeight / 2 - (itemY + offset);
 
 		$("#world").css('left', worldX + 'px').css('top', worldY + 'px');
+		Gui.playerMoved(Meteor.user(), Solomon.maze.findOne("world").map);
 	}
 }
 
@@ -146,8 +174,29 @@ Gui.handleDataChange = function (changeType, item) {
 Gui.onLogin = function () {
 };
 
+Gui.receiveMapShareRequest = function (user) {
+	$(".shareName").text(user.username);
+	$("#dialog-agree-to-share").dialog({
+		resizable: false,
+		height: 200,
+		modal: true,
+		buttons: {
+			"Agree": function() {
+				shareMaps(user);
+				console.log("yes");
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				console.log("no");
+				$( this ).dialog( "close" );
+			}
+		},
+		width: 600
+	});	
+};
+
 Gui.askToShareMaps = function (event, ui) {
-	$("#shareName").text(ui.target.text());
+	$(".shareName").text(ui.target.text());
 	$("#dialog-confirm-share").dialog({
 		resizable: false,
 		height: 200,
@@ -188,6 +237,7 @@ $(document).keydown(function (event) {
 });
 
 $(document).ready(function () {
+	var map, i, j;
 	  $("#chatTabs").tabs();
 	  $(".chatInput").val(Gui.g.DEFAULT_CHAT_TEXT);
 	  $(".chatInput").focus(function () {
@@ -221,6 +271,14 @@ $(document).ready(function () {
 		  var player = Solomon.Middleware.players[i];
 
 		  changePlayer('added', player);
+	  }
+	  map = Solomon.maze.findOne("world").map;
+	  Gui.g.revealedMap = [];
+	  for (i = 0; i < map.length; i++) {
+		Gui.g.revealedMap[i] = [];
+		for (j = 0; j < map[i].length; j++) {
+			Gui.g.revealedMap[i][j] = null;
+		}
 	  }
 });
 
