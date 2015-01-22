@@ -3,6 +3,7 @@
 var Gui = Solomon.Gui = {};
 var speak = Solomon.Middleware.speak;
 var teamChat = Solomon.Middleware.teamChat;
+var offerMap = Solomon.Middleware.offerMap = {};
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here..."
@@ -57,6 +58,27 @@ Gui.chatLog = {
 Gui.onLogin = function () {
 };
 
+Gui.askToShareMaps = function (event, ui) {
+	$("#shareName").text(ui.target.text());
+	$("#dialog-confirm-share").dialog({
+		resizable: false,
+		height: 200,
+		modal: true,
+		buttons: {
+			"Ask to share maps": function() {
+				offerMap();
+				console.log("yes");
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				console.log("no");
+				$( this ).dialog( "close" );
+			}
+		},
+		width: 600
+	});
+};
+
 $(document).keydown(function (event) {
 	switch (event.keyCode) {
 	case 37:
@@ -96,5 +118,16 @@ $(document).ready(function () {
 			  Gui.sendMessage($(this));
 		  }
 	  });
+	  $(".statsSection").contextmenu({
+		  delegate: ".personStats",
+		  menu: [
+		         {title: "Share map", cmd: "share", uiIcon: "ui-icon-copy", action: Gui.askToShareMaps}
+		  ]	  
+	  });
+	  Gui.canvasElem = $('#map');
+	  Gui.canvasElem.attr("height", Gui.canvasElem.height());
+	  Gui.canvasElem.attr("width", Gui.canvasElem.width());
+	  Gui.context = Gui.canvasElem[0].getContext("2d");
+	  Solomon.Gui.context.fillStyle = '#000';
 });
 })();
