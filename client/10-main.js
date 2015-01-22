@@ -28,32 +28,45 @@ Gui.sendMessage = function (target) {
 	target.val("");
 };
 
-Gui.receiveMessage = function (item) {
-	var chatBox, content, from, newDiv;
-	if (item.type === 'speech') {
-		chatBox = $('#speak .chatBody');
-	} else {
-		chatBox = $('#teamChat .chatBody');
+function ownsItem(item) {
+	return item.owner == Meteor.userId();   
+}
+
+Gui.receiveMessage = function (changeType, item) {
+	if (ownsItem(item)) {
+		if (changeType != 'added') {
+			console.log("Message change: ", changeType);
+		} else {
+			var chatBox, content, from, newDiv;
+			
+			if (item.type === 'speech') {
+				chatBox = $('#speak .chatBody');
+			} else {
+				chatBox = $('#teamChat .chatBody');
+			}
+			from = Solomon.maze.findOne(item.from);
+			content = item.content;
+			newDiv = $("<div></div>");
+			newDiv.html("<span class='chatName'>" + from.username + ":</span> " + content);
+			chatBox.append(newDiv);
+			chatBox.scrollTop(1E10);
+		}
 	}
-        from = Solomon.maze.findOne(item.from);
-	content = item.content;
-	newDiv = $("<div></div>");
-        newDiv.html("<span class='chatName'>" + from.username + ":</span> " + content);
-	chatBox.append(newDiv);
-	chatBox.scrollTop(1E10);
 };
 
-Gui.chatLog = {
-	added: function (item) {
-		Gui.receiveMessage(item);
-	},
-	removed: function (item) {
-                console.log("chatLog removed: " + item._id);
-	},
-	changed: function (item) {
-                console.log("chatLog changed: " + item._id);			
-	}
+changeTypes = {
+	speech: Gui.receiveMessage,
+	teamChat: null,
+	mapTile: null,
+	player: null
 };
+
+Gui.handleDataChange = function (changeType, item) {
+	var ch = changeTypes[item.type];
+	
+	if (ch) ch(changeType, item);
+};
+
 Gui.onLogin = function () {
 };
 

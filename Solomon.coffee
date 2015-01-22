@@ -1,30 +1,20 @@
 {
-  handlers,
   Gui:gui,
   Middleware:mid,
 } = root = (window ? global).Solomon
 
-handleChange = (changeType, item)-> handlers[item.type]?[changeType]?(item)
+handleChange = (changeType, item)->
+  gui.handleDataChange changeType, item
+  mid.handleDataChange changeType, item
 
-ownsItem = (item)-> item.owner == Meteor.userId()
-
-root.players = players = {}
+loggedIn = _.once ->
+  root.loggedIn = true
+  console.log "LOGGED IN"
+  #Gui.onLogin()
+  mid.onLogin()
 
 initCollections = ->
-  Meteor.autorun ->
-    if Meteor.user()
-      root.loggedIn = true
-      console.log "LOGGED IN"
-      #Gui.onLogin()
-      mid.onLogin()
-  handlers.speech =
-    added: (item)-> if ownsItem item then gui.chatLog.added item
-    removed: (item)-> if ownsItem item then gui.chatLog.removed item
-    changed: (item)-> if ownsItem item then gui.chatLog.changed item
-  handlers.player =
-    added: (item)-> players[item._id] = item
-    removed: (item)-> delete players[item._id]
-    changed: (item)-> players[item._id] = item
+  Meteor.autorun -> if Meteor.user() then loggedIn()
   Meteor.subscribe 'maze', ->
     root.subscribed = true
     maze = root.maze = new Meteor.Collection 'maze'
