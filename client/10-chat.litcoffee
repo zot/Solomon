@@ -11,8 +11,9 @@
         root.user = user = maze.findOne Meteor.userId()
         if !user
           root.user = user =
+            _id: Meteor.userId()
             type: 'player'
-            user: Meteor.userId()
+            username: Meteor.user().username
           maze.insert user
 
     subscribed = ->
@@ -27,6 +28,9 @@
       speech =
         _id: id
         type: 'speech'
+        #TODO make sure this is UTC at some point
+        time: Date.now()
+        content: txt
         from: Meteor.userId()
         owner: Meteor.userId()
         prev: oldTail?._id

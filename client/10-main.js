@@ -25,16 +25,16 @@ Gui.sendMessage = function (target) {
 };
 
 Gui.receiveMessage = function (item) {
-	var chatBox, content, playerID, newDiv;
+	var chatBox, content, from, newDiv;
 	if (item.type === 'speech') {
 		chatBox = $('#speak .chatBody');
 	} else {
 		chatBox = $('#teamChat .chatBody');
 	}
-	playerID = item.from;
+        from = Solomon.maze.findOne(item.from);
 	content = item.content;
 	newDiv = $("<div></div>");
-	newDiv.html("<span class='chatName'>" + playerID + " :</span> " + content);
+        newDiv.html("<span class='chatName'>" + from.username + ":</span> " + content);
 	chatBox.append(newDiv);
 	chatBox.scrollTop(1E10);
 };
