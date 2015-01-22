@@ -54,11 +54,25 @@ Gui.receiveMessage = function (changeType, item) {
 	}
 };
 
+function changePlayer(changeType, item) {
+	switch (changeType) {
+	case 'added':
+		$("#localViewInner").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+		break;
+	case 'changed':
+		$("##{item._id}");
+		break;
+	case 'removed':
+		$("##{item._id}").remove();
+		break;
+	}
+}
+
 changeTypes = {
 	speech: Gui.receiveMessage,
 	teamChat: null,
 	mapTile: null,
-	player: null
+	player: changePlayer
 };
 
 Gui.handleDataChange = function (changeType, item) {

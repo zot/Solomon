@@ -4,6 +4,9 @@
       maze = new Meteor.Collection 'maze'
       # for now, always toast the database on start
       maze.remove {}
+      map = JSON.parse Assets.getText 'map1.json'
+      map._id = 'world'
+      maze.insert map
       if !(maze.findOne 'master')
         for n in initialAccounts
           console.log "creating account:", n

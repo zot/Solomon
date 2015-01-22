@@ -1,6 +1,6 @@
     {
       maze,
-    } = root = (window ? global).Solomon
+    } = root = Solomon
 
     exp = root.Middleware = {}
     user = null
@@ -15,21 +15,29 @@
 
     handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
 
-    getUser = ->
-      if maze && root.subscribed && Meteor.user()
-        root.user = user = maze.findOne Meteor.userId()
-        if !user
-          root.user = user =
-            _id: Meteor.userId()
-            type: 'player'
-            username: Meteor.user().username
-          maze.insert user
+    getUser = -> if maze && root.subscribed && Meteor.user() then initUser()
+
+    initUser = _.once ->
+      root.user = user = maze.findOne Meteor.userId()
+      if !user
+        root.user = user =
+          _id: Meteor.userId()
+          type: 'player'
+          username: Meteor.user().username
+        maze.insert user
+      root.World.replaceWorld()
 
     subscribed = ->
       maze = root.maze
       getUser()
 
     onLogin = -> getUser()
+
+    movePlayer = (x, y)->
+      player = players[Meteor.userId()]
+      player.x = x
+      player.y = y
+      maze.update player
 
     speak = (txt)->
       #TODO make sure this is UTC at some point

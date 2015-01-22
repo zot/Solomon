@@ -135,3 +135,17 @@
 .chatInput.notEmpty {
 	color:								#000;
 }
+#world {
+	position: absolute;
+}
+.mapRow {
+	display: block;
+}
+.mapTile {
+	width: 64px;
+	height: 64px;
+	font-weight: bold;
+	font-size: 24pt;
+	display: inline-block;
+	overflow: clip;
+}
