@@ -20,8 +20,12 @@ Gui.arrowKeyPressed = function (deltaX, deltaY) {
 };
 
 Gui.sendMessage = function (target) {
-	speak(target.val());
-	$(target).val("");
+	if (target.parent().attr("id") === "speak") {
+		speak(target.val());
+	} else {
+		teamChat(target.val());
+	}
+	target.val("");
 };
 
 Gui.receiveMessage = function (item) {
