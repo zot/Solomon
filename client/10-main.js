@@ -26,7 +26,11 @@ Gui.sendMessage = function (target) {
 
 Gui.receiveMessage = function (item) {
 	var chatBox, content, playerID, newDiv;
-	chatBox = $('#teamChat .chatBody');
+	if (item.type === 'speech') {
+		chatBox = $('#speak .chatBody');
+	} else {
+		chatBox = $('#teamChat .chatBody');
+	}
 	playerID = item.from;
 	content = item.content;
 	newDiv = $("<div></div>");
