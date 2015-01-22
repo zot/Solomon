@@ -1,30 +1,30 @@
 {
   handlers,
   Gui,
+  Middleware,
 } = root = (window ? global).Solomon
-
-maze = null
 
 handleChange = (changeType, item)-> handlers[item.type]?[changeType]?(item)
 
 initCollections = ->
   Meteor.autorun ->
+    root.loggedIn = true
     console.log "LOGGED IN"
-    #if Meteor.user()
-    #  Gui.onLogin()
-  #Accounts.onLogin -> gui.onLogin()
-  #Accounts.onLoginFailure -> gui.onLoginFailure()
+    #Gui.onLogin()
+    Middleware.onLogin()
   handlers.chat =
     added: (item)-> gui.chatLog.added item
     removed: (item)-> gui.chatLog.removed item
     changed: (item)-> gui.chatLog.changed item
   Meteor.subscribe 'maze', ->
-    maze = new Metor.Collection 'maze'
+    root.subscribed = true
+    maze = root.maze = new Meteor.Collection 'maze'
     maze.find().observe
       _suppress_initial: true
       added: (item)-> handleChange 'added', item
       removed: (item)-> handleChange 'removed', item
       changed: (item)-> handleChange 'changed', item
+    Middleware.subscribed()
 
 if Meteor.isClient
   initCollections()
