@@ -19,6 +19,7 @@
 }
 
 #chatView {
+	border:								0;
 	height:								375px;
 	left:								10px;
 	top:								420px;
@@ -30,6 +31,14 @@
 	left:								520px;
 	top:								420px;
 	width:								500px;
+}
+
+#chatTabs {
+	bottom:								0;
+	left:								0;
+	position:							absolute;
+	right:								0;
+	top:								0;
 }
 
 .character {
@@ -61,4 +70,26 @@
 	left:								256px;
 	top:								64px;
 	width:								32px;
+}
+
+.chatBody {
+	background-color:					#fff;
+	color:								#000;
+	height: 							225px;
+	overflow-y:							scroll;
+	padding:							2px;
+}
+
+.chatInput {
+	border:								0;
+	color:								#777;
+	margin:								2px 0;
+	outline:							1px solid #000;
+	padding:							2px;
+	width:								432px;
+}
+
+.chatInput:focus,
+.chatInput.notEmpty {
+	color:								#000;
 }
