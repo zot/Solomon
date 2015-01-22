@@ -10,7 +10,23 @@ Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here...",
 	OFFSET_X : 7,
 	OFFSET_Y : 5,
-	revealedMap : []
+	revealedMap : [],
+	rgbMap : {
+		'e' : '#ddd',
+		'f' : '#aaa',
+		'p' : '#000',
+		'w' : '#000',
+		'x' : '#0f0',
+		'z' : '#040'
+	}
+/*
+ *	e "empty.png"
+	f "floor.png"
+	p "pit.png"
+	w "wall.png"
+	x "exit.png"				
+	z "food.png"
+ */
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
@@ -49,6 +65,15 @@ Gui.playerMoved = function (player, map) {
 	for (j = topCornerY; j < bottomCornerY; j++) {
 		for (i = topCornerX; i < bottomCornerX; i++) {
 			Gui.g.revealedMap[j][i] = map[i][j];
+			/*
+			 *	e "empty.png"
+				f "floor.png"
+				p "pit.png"
+				w "wall.png"
+				x "exit.png"				
+				z "food.png"
+			 */
+			Gui.context.fillStyle = Gui.g.rgbMap[map[i][j]];
 			Gui.context.fillRect(i * 5, j * 5, 5, 5);
 		}
 	}
