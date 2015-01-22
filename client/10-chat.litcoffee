@@ -5,11 +5,18 @@
     exp = root.Middleware = {}
     user = null
     maze = null
-    players = null
+    players = {}
+
+    changeTypes =
+      player: (changeType, item)->
+        switch changeType
+          when 'added', 'changed' then players[item._id] = item
+          when 'removed' then delete players[item._id]
+
+    handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
 
     getUser = ->
       if maze && root.subscribed && Meteor.user()
-        players = root.players
         root.user = user = maze.findOne Meteor.userId()
         if !user
           root.user = user =
@@ -53,3 +60,5 @@
     exp.teamChat = teamChat
     exp.onLogin = onLogin
     exp.subscribed = subscribed
+    exp.handleDataChange = handleDataChange
+    exp.players = players
