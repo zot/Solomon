@@ -2,12 +2,15 @@
 	<title>Solomon</title>
 	<link href="/reset.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="/jquery-ui-1.11.2.custom/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-	<script src="/jquery-ui-1.11.2.custom/external/jquery/jquery.js"></script>
-	<script src="/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
+	<script type="text/javascript" src="/jquery-ui-1.11.2.custom/external/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
+	<script type="text/javascript" src="/jquery.ui-contextmenu.min.js"></script>
 </head>
 
 <body>
+	<div id="outerContainer"><div id="innerContainer">
   {{> loginButtons}}
+  	<div id="gameTitleBar">Escape from King Solomon's Mines</div>
 	<div class="ui-widget-content ui-corner-all viewPort" id="localView">
 		<div id="localViewInner">
 			<div id="world"></div>
@@ -15,8 +18,9 @@
 		</div>
 	</div>
 	<div class="ui-widget-content ui-corner-all viewPort" id="mapView">
-		<div id="mapViewInner">
-			Map View
+		<canvas id="map" title="Your map will be revealed as you move. You can also share maps with your team."></canvas>
+		<div id="mapViewLabel">
+			Map
 		</div>
 	</div>
 	<div class="viewPort" id="chatView">
@@ -71,5 +75,9 @@
 			</div>
 		</div>
 	</div>
+	<div id="dialog-confirm-share" title="Confirm Sharing Map?">
+		<div>Do you really want to ask <span id="shareName"></span> to share maps?</div>
+	</div>
+	</div></div>
 </body>
 

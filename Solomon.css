@@ -1,3 +1,16 @@
+#innerContainer {
+	margin:								0 auto 5px;
+	position:							relative;
+	width:								1030px;
+}
+
+#gameTitleBar {
+	font-size:							32px;
+	position:							relative;
+	text-align:							center;
+	top:								-20px;
+}
+
 .viewPort {
 	border:								0;
 	overflow:							hidden;
@@ -18,13 +31,23 @@
 	width:								500px;
 }
 
-#mapViewInner, #localViewInner {
+#localViewInner {
 	background-color:					#fff;
 	bottom:								5px;
 	left:								5px;
+	overflow:							hidden;
 	position:							absolute;
 	right:								5px;
 	top:								5px;
+}
+
+#map {
+	background-color:					#fff;
+	height:								320px;
+	left:								90px;
+	position:							absolute;
+	top:								25px;
+	width:								320px;
 }
 
 #chatView {
@@ -50,6 +73,14 @@
 	color:								#fff;
 	font-size:							24px;
 	margin:								10px;
+}
+
+#mapViewLabel {
+	color:								#fff;
+	font-size:							24px;
+	left:								10px;
+	position:							absolute;
+	top:								10px;
 }
 
 .statsTray {
@@ -148,4 +179,10 @@
 	font-size: 24pt;
 	display: inline-block;
 	overflow: clip;
+}
+.ui-menu-item {
+	font-weight:						normal !important;
+}
+#dialog-confirm-share {
+	display:							none;
 }
