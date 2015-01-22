@@ -1,9 +1,18 @@
 (function() {
-
 var Gui = Solomon.Gui = {};
 var speak = Solomon.Middleware.speak;
 var teamChat = Solomon.Middleware.teamChat;
 var offerMap = Solomon.Middleware.offerMap = {};
+var tileSize = 0;
+var viewPortWidth = null;
+var viewPortHeight = null;
+var mapWidth;
+var mapHeight;
+
+Gui.setMapSize = function(width, height) {
+	mapWidth = width;
+	mapHeight = height;
+}
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here...",
@@ -15,14 +24,9 @@ Gui.g = {
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
-	var whatToMove, leftWas, topWas;
-	whatToMove = $('#localViewInner div:not("#me")');
-	whatToMove.each(function() {
-		leftWas = parseInt($(this).css("left"));
-		topWas = parseInt($(this).css("top"));
-		$(this).css("left", leftWas - deltaX * 32);
-		$(this).css("top", topWas - deltaY * 32);
-	});
+	Solomon.user.x += deltaX;
+	Solomon.user.y += deltaY;
+	Solomon.maze.update(Solomon.user._id, Solomon.user);
 };
 
 Gui.sendMessage = function (target) {
@@ -79,16 +83,50 @@ Gui.receiveMessage = function (changeType, item) {
 };
 
 function changePlayer(changeType, item) {
+	if (viewPortWidth == null) {
+		if (!getSizes()) return;
+	}
 	switch (changeType) {
 	case 'added':
-		$("#localViewInner").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+		if ($('#' + item._id).length == 0) {
+			$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+		}
+		updatePlayer(item);
 		break;
 	case 'changed':
-		$("##{item._id}");
+		updatePlayer(item);
 		break;
 	case 'removed':
 		$("##{item._id}").remove();
 		break;
+	}
+}
+
+function getSizes() {
+	if ($('#world:first').length) {
+		tileSize = $('#world:first')[0].offsetWidth;
+		viewPortWidth = $('#localViewInner').innerWidth();
+		viewPortHeight = $('#localViewInner').innerWidth();
+		return true;
+	}
+	return false;
+}
+
+function updatePlayer(item) {
+	var el = $('#' + item._id);
+	var itemX = item.x * tileSize;
+	var itemY = item.y * tileSize;
+
+	console.log("updating player: " + item.username);
+	el.css('left', itemX + 'px').css('top', itemY + 'px');
+	if (item._id == Meteor.userId()) {
+		var offset = tileSize / 2;
+		//var worldX =  Math.max(viewPortWidth - mapWidth, Math.min(0, (itemX - viewPortWidth / 2 - offset)));
+		//var worldY = Math.max(viewPortHeight - mapHeight, Math.min(0, (itemY - viewPortHeight / 2 - offset)));
+		var worldX = viewPortWidth / 2 - (itemX + offset);
+		var worldY = viewPortHeight / 2 - (itemY + offset);
+
+		$("#world").css('left', worldX + 'px').css('top', worldY + 'px');
 	}
 }
 
@@ -179,5 +217,12 @@ $(document).ready(function () {
 	  Gui.canvasElem.attr("width", Gui.canvasElem.width());
 	  Gui.context = Gui.canvasElem[0].getContext("2d");
 	  Solomon.Gui.context.fillStyle = '#000';
+	  for (var i in Solomon.Middleware.players) {
+		  var player = Solomon.Middleware.players[i];
+
+		  changePlayer('added', player);
+	  }
 });
+
+Gui.changePlayer = changePlayer;
 })();

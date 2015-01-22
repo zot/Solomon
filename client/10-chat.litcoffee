@@ -10,7 +10,9 @@
     changeTypes =
       player: (changeType, item)->
         switch changeType
-          when 'added', 'changed' then players[item._id] = item
+          when 'added', 'changed'
+            players[item._id] = item
+            if item._id == user?._id then user = item
           when 'removed' then delete players[item._id]
 
     handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
@@ -24,8 +26,10 @@
           _id: Meteor.userId()
           type: 'player'
           username: Meteor.user().username
+          x: 10
+          y: 10
         maze.insert user
-      root.World.replaceWorld()
+      $(document).ready -> root.World.replaceWorld()
 
     subscribed = ->
       maze = root.maze
