@@ -1,0 +1,2 @@
+    sendChat = (txt)->
+      
