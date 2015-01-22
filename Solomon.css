@@ -18,6 +18,15 @@
 	width:								500px;
 }
 
+#mapViewInner, #localViewInner {
+	background-color:					#fff;
+	bottom:								5px;
+	left:								5px;
+	position:							absolute;
+	right:								5px;
+	top:								5px;
+}
+
 #chatView {
 	border:								0;
 	height:								375px;

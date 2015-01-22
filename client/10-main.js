@@ -4,7 +4,7 @@ var g = {
 
 function arrowKeyPressed(deltaX, deltaY) {
 	var whatToMove, leftWas, topWas;
-	whatToMove = $('#localView div:not("#me")');
+	whatToMove = $('#localViewInner div:not("#me")');
 	whatToMove.each(function() {
 		leftWas = parseInt($(this).css("left"));
 		topWas = parseInt($(this).css("top"));

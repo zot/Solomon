@@ -8,13 +8,17 @@
 
 <body>
   {{> loginButtons}}
-	<div class="viewPort" id="localView">
-		<div class="character" id="me">Me</div>
-		<div class="wallBlock" id="foo"></div>
-		<div class="wallBlock" id="bar"></div>
+	<div class="ui-widget-content ui-corner-all viewPort" id="localView">
+		<div id="localViewInner">
+			<div class="character" id="me">Me</div>
+			<div class="wallBlock" id="foo"></div>
+			<div class="wallBlock" id="bar"></div>
+		</div>
 	</div>
-	<div class="viewPort" id="mapView">
-		Map View
+	<div class="ui-widget-content ui-corner-all viewPort" id="mapView">
+		<div id="mapViewInner">
+			Map View
+		</div>
 	</div>
 	<div class="viewPort" id="chatView">
 		<div id="chatTabs">
@@ -38,7 +42,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 			</div>
 		</div>
 	</div>
-	<div class="viewPort" id="statsView">
+	<div class="ui-widget-content ui-corner-all viewPort" id="statsView">
 		stats
 	</div>
 </body>
