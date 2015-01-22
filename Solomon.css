@@ -41,6 +41,30 @@
 	width:								500px;
 }
 
+.statsSection {
+	height:								80px;
+	position:							relative;
+}
+
+.statsSectionName {
+	color:								#fff;
+	font-size:							24px;
+	margin:								10px;
+}
+
+.statsTray {
+	left:								120px;
+	position:							absolute;
+	top:								0;
+}
+
+.inventoryItem, .vitalsItem, .personStats {
+	display:							inline-block;
+	height:								64px;
+	outline:							1px solid #fff;
+	width:								64px;
+}
+
 #chatTabs {
 	bottom:								0;
 	left:								0;
@@ -84,8 +108,13 @@
 	background-color:					#fff;
 	color:								#000;
 	height: 							225px;
-	overflow-y:							scroll;
+	overflow-y:							auto;
 	padding:							2px;
+}
+
+.systemMessage {
+	color:								#777;
+	font-style: 						italic;
 }
 
 .chatInput {
