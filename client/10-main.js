@@ -1,6 +1,8 @@
 (function() {
 
 var Gui = Solomon.Gui = {};
+var speak = Solomon.Middleware.speak;
+var teamChat = Solomon.Middleware.teamChat;
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here..."
@@ -18,6 +20,7 @@ Gui.arrowKeyPressed = function (deltaX, deltaY) {
 };
 
 Gui.sendMessage = function (target) {
+	speak(target.val());
 	$(target).val("");
 };
 
@@ -34,7 +37,7 @@ Gui.receiveMessage = function (item) {
 
 Gui.chatLog = {
 	added: function (item) {
-		receiveMessage(item);
+		Gui.receiveMessage(item);
 	},
 	removed: function (item) {
 		console.log("chatLog removed");
