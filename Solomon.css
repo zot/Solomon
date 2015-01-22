@@ -4,6 +4,13 @@
 	width:								1030px;
 }
 
+#gameTitleBar {
+	font-size:							32px;
+	position:							relative;
+	text-align:							center;
+	top:								-20px;
+}
+
 .viewPort {
 	border:								0;
 	overflow:							hidden;
