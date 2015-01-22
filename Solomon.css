@@ -183,6 +183,6 @@
 .ui-menu-item {
 	font-weight:						normal !important;
 }
-#dialog-confirm-share {
+#dialog-confirm-share, #dialog-agree-to-share {
 	display:							none;
 }
