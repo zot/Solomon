@@ -1,44 +1,64 @@
 .viewPort {
 	border:								1px solid #000;
+	overflow:							hidden;
 	position:							absolute;
 }
 
 #mapView {
 	height:								375px;
 	left:								520px;
-	top:								10px;
+	top:								30px;
 	width:								500px;
 }
 
 #localView {
 	height:								375px;
 	left:								10px;
-	top:								10px;
+	top:								30px;
 	width:								500px;
 }
 
 #chatView {
 	height:								375px;
 	left:								10px;
-	top:								400px;
+	top:								420px;
 	width:								500px;
 }
 
 #statsView {
 	height:								375px;
 	left:								520px;
-	top:								400px;
+	top:								420px;
 	width:								500px;
 }
 
 .character {
-	height:								100px;
+	height:								32px;
 	position:							absolute;
-	width:								100px;
+	width:								32px;
 }
 
 #me {
 	background-color:					#00f;
-	left:								200px;
-	top:								162px;
+	left:								224px;
+	top:								160px;
+}
+
+.wallBlock {
+	background-color:					brown;
+	position:							absolute;
+}
+
+#foo {
+	height:								32px;
+	left:								32px;
+	top:								32px;
+	width:								128px;
+}
+
+#bar {
+	height:								128px;
+	left:								256px;
+	top:								64px;
+	width:								32px;
 }
