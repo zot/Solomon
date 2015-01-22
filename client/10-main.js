@@ -6,7 +6,12 @@ var teamChat = Solomon.Middleware.teamChat;
 var offerMap = Solomon.Middleware.offerMap = {};
 
 Gui.g = {
-	DEFAULT_CHAT_TEXT : "Type chat message here..."
+	DEFAULT_CHAT_TEXT : "Type chat message here...",
+	OFFSET_X : 7,
+	OFFSET_Y : 5,
+	PLAYER_WIDTH: 32,
+	PLAYER_HEIGHT: 32,
+	revealedMap : []
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
@@ -27,6 +32,24 @@ Gui.sendMessage = function (target) {
 		teamChat(target.val());
 	}
 	target.val("");
+};
+
+Gui.playerMoved = function (player, map) {
+	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY;
+	playerX = player.X;
+	playerY = player.Y;
+	
+	topCornerX = playerX - Gui.g.OFFSET_X;
+	topCornerY = playerY - Gui.g.OFFSET_Y;
+	bottomCornerX = playerX + Gui.g.OFFSET_X + Gui.g.PLAYER_WIDTH;
+	bottomCornerY = playerY + Gui.g.OFFSET_Y + Gui.g.PLAYER_HEIGHT;
+	
+	for (j = topCornerY; j < bottomCornerY; j++) {
+		for (i = topCornerX; i < bottomCornerX; i++) {
+			revealedMap[j][i] = map[i][j];
+			Gui.context.fillRect(i * 5, j * 5, 5, 5);
+		}
+	}
 };
 
 function ownsItem(item) {
