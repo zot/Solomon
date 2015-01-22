@@ -108,8 +108,13 @@
 	background-color:					#fff;
 	color:								#000;
 	height: 							225px;
-	overflow-y:							scroll;
+	overflow-y:							auto;
 	padding:							2px;
+}
+
+.systemMessage {
+	color:								#777;
+	font-style: 						italic;
 }
 
 .chatInput {
