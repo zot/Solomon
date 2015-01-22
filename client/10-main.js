@@ -1,8 +1,12 @@
-var g = {
-	DEFAULT_CHAT_TEXT : "Type chat message here..."
-}
+(function() {
 
-function arrowKeyPressed(deltaX, deltaY) {
+var Gui = Solomon.Gui = {};
+
+Gui.g = {
+	DEFAULT_CHAT_TEXT : "Type chat message here..."
+};
+
+Gui.arrowKeyPressed = function (deltaX, deltaY) {
 	var whatToMove, leftWas, topWas;
 	whatToMove = $('#localViewInner div:not("#me")');
 	whatToMove.each(function() {
@@ -11,25 +15,50 @@ function arrowKeyPressed(deltaX, deltaY) {
 		$(this).css("left", leftWas - deltaX * 32);
 		$(this).css("top", topWas - deltaY * 32);
 	});
-}
+};
 
-function sendMessage(target) {
+Gui.sendMessage = function (target) {
 	$(target).val("");
-}
+};
+
+Gui.receiveMessage = function (item) {
+	var chatBox, content, playerID, newDiv;
+	chatBox = $('#teamChat .chatBody');
+	playerID = item.from;
+	content = item.content;
+	newDiv = $("<div></div>");
+	newDiv.html("<span class='chatName'>" + playerID + " :</span> " + content);
+	chatBox.append(newDiv);
+	chatBox.scrollTop(1E10);
+};
+
+Gui.chatLog = {
+	added: function (item) {
+		receiveMessage(item);
+	},
+	removed: function (item) {
+		console.log("chatLog removed");
+	},
+	changed: function (item) {
+		console.log("chatLog changed");			
+	}
+};
+Gui.onLogin = function () {
+};
 
 $(document).keydown(function (event) {
 	switch (event.keyCode) {
 	case 37:
-		arrowKeyPressed(-1,0);
+		Gui.arrowKeyPressed(-1,0);
 		break;
 	case 38:
-		arrowKeyPressed(0,-1);
+		Gui.arrowKeyPressed(0,-1);
 		break;
 	case 39:
-		arrowKeyPressed(1,0);
+		Gui.arrowKeyPressed(1,0);
 		break;
 	case 40:
-		arrowKeyPressed(0,1);
+		Gui.arrowKeyPressed(0,1);
 		break;
 	default:
 		return true;
@@ -39,21 +68,22 @@ $(document).keydown(function (event) {
 
 $(document).ready(function () {
 	  $("#chatTabs").tabs();
-	  $(".chatInput").val(g.DEFAULT_CHAT_TEXT);
+	  $(".chatInput").val(Gui.g.DEFAULT_CHAT_TEXT);
 	  $(".chatInput").focus(function () {
 		  $(this).removeClass("notEmpty");
-		  if ($(this).val() === g.DEFAULT_CHAT_TEXT) {
+		  if ($(this).val() === Gui.g.DEFAULT_CHAT_TEXT) {
 			  $(this).val("");
 		  }
 	  }).blur(function () {
 		  if ($(this).val().trim() === "") {
-			  $(this).val(g.DEFAULT_CHAT_TEXT);
+			  $(this).val(Gui.g.DEFAULT_CHAT_TEXT);
 		  } else {
 			  $(this).addClass("notEmpty");
 		  }
 	  }).keydown(function (event) {
 		  if (event.keyCode === 13) {
-			  sendMessage($(this));
+			  Gui.sendMessage($(this));
 		  }
 	  });
 });
+})();

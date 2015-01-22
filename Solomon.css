@@ -1,5 +1,5 @@
 .viewPort {
-	border:								1px solid #000;
+	border:								0;
 	overflow:							hidden;
 	position:							absolute;
 }
@@ -28,7 +28,6 @@
 }
 
 #chatView {
-	border:								0;
 	height:								375px;
 	left:								10px;
 	top:								420px;
@@ -96,6 +95,11 @@
 	outline:							1px solid #000;
 	padding:							2px;
 	width:								432px;
+}
+
+.chatName {
+	color:								#008;
+	font-weight:						bold;
 }
 
 .chatInput:focus,
