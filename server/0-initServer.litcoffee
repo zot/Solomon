@@ -1,4 +1,4 @@
-    initialAccounts = ['bill', 'gilan', 'roy', 'rotem']
+    initialAccounts = ['bill', 'gilan', 'roy', 'rotem', 'shlomi']
 
     init = ->
       maze = new Meteor.Collection 'maze'
