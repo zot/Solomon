@@ -1,4 +1,4 @@
-    initialAccounts = ['bill', 'gilan', 'roy', 'rotem', 'shlomi']
+    initialAccounts = [['bill', 'bill.png'], ['gilan', 'gilan.png'], ['roy'], ['rotem'], ['shlomi']]
 
     init = ->
       maze = new Meteor.Collection 'maze'
@@ -8,17 +8,20 @@
       map._id = 'world'
       maze.insert map
       if !(maze.findOne 'master')
-        for n in initialAccounts
+        for [n, image] in initialAccounts
           console.log "creating account:", n
           try
+            profile = name: n
+            if image? then profile.image = image
             Accounts.createUser
               username: n
               password: n
               email: "#{n}@#{n}"
-              profile: name: n
+              profile: profile
           catch
         maze.insert
           _id: 'master'
+          #players seems to be obsolete
           players: []
       else console.log "Maze already exists"
       Meteor.publish 'maze', -> maze.find()

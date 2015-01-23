@@ -136,7 +136,11 @@ function changePlayer(changeType, item) {
 		Solomon.players[item._id] = item;
 		if (validView()) {
 			if ($('#' + item._id).length == 0) {
-				$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+				if (item.image) {
+					$("#world").append("<image id='" + item._id + "' class='character' style='left: 224px; top: 160px' src='players/" + item.image + "'>");
+				} else {
+					$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+				}
 			}
 			updatePlayer(item);
 		}

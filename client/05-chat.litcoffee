@@ -24,10 +24,12 @@
         root.user = user = maze.findOne Meteor.userId()
         if !user then root.onStart ->
           [x, y] = root.World.randomStartLocation()
+          acct = Meteor.user()
           root.user = user =
             _id: Meteor.userId()
             type: 'player'
-            username: Meteor.user().username
+            username: acct.username
+            image: acct.profile.image
             x: x
             y: y
           maze.insert user
