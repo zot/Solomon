@@ -12,6 +12,12 @@
 	z-index:							-1;
 }
 
+#toggleSound {
+	position:							absolute;
+	right:								0;
+	top:								0;
+}
+
 .viewPort {
 	border:								0;
 	overflow:							hidden;

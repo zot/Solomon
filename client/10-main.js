@@ -220,6 +220,14 @@ Gui.askToShareMaps = function (event, ui) {
 	});
 };
 
+Gui.toggleSound = function () {
+	if ($('#regularBackground')[0].paused) {
+		document.getElementById('regularBackground').play();
+	} else {
+		document.getElementById('regularBackground').pause();
+	}
+}
+
 $(document).keydown(function (event) {
 	switch (event.keyCode) {
 	case 37:
@@ -240,8 +248,11 @@ $(document).keydown(function (event) {
 	return false;
 });
 
+
+
 $(document).ready(function () {
 	var map, i, j;
+	  $('#toggleSound').click(Gui.toggleSound);
 	  $("#chatTabs").tabs();
 	  $(".chatInput").val(Gui.g.DEFAULT_CHAT_TEXT);
 	  $(".chatInput").focus(function () {
