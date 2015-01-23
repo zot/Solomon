@@ -13,7 +13,7 @@
           when 'added', 'changed'
             if item._id == Meteor.userId() then root.user = user = item
           when 'removed'
-            if item._id == Meteor.userId() then root.user = user = null
+            if item._id == user?._id then root.user = user = null
 
     handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
 
