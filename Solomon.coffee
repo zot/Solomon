@@ -12,9 +12,7 @@ handleChange = (changeType, item)->
 
 loggedIn = ->
   if root.user?._id != Meteor.userId()
-    root.loggedIn = true
     console.log "LOGGED IN"
-    #Gui.onLogin()
     mid.onLogin()
 
 loggedOut = -> if root.user then mid.onLogout()

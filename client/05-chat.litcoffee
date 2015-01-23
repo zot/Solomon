@@ -1,21 +1,19 @@
     {
       maze,
+      players,
     } = root = Solomon
 
     exp = root.Middleware = {}
     user = null
     maze = null
-    players = {}
 
     changeTypes =
       player: (changeType, item)->
         switch changeType
           when 'added', 'changed'
-            players[item._id] = item
-            if item._id == user?._id then user = item
+            if item._id == Meteor.userId() then root.user = user = item
           when 'removed'
-            delete players[item._id]
-            if item._id == user?._id then root.user = user = null
+            if item._id == Meteor.userId() then root.user = user = null
 
     handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
 
@@ -42,8 +40,7 @@
       maze = root.maze
       getUser()
 
-    onLogout = ->
-      if user? then root.maze.remove user._id
+    onLogout = -> if user? then root.maze.remove user._id
 
     movePlayer = (x, y)->
       player = players[Meteor.userId()]
@@ -82,4 +79,3 @@
     exp.onLogout = onLogout
     exp.subscribed = subscribed
     exp.handleDataChange = handleDataChange
-    exp.players = players
