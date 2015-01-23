@@ -14,9 +14,10 @@
       if subscribed then runStarted()
 
     runStarted = ->
-       for f in pending
-         f()
-       pending = null
+      started = true
+      for f in pending
+        f()
+      pending = null
     
     onStart = (func)->
        if !started then pending.push func

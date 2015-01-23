@@ -10,14 +10,17 @@ handleChange = (changeType, item)->
   gui.handleDataChange changeType, item
   mid.handleDataChange changeType, item
 
-loggedIn = _.once ->
-  root.loggedIn = true
-  console.log "LOGGED IN"
-  #Gui.onLogin()
-  mid.onLogin()
+loggedIn = ->
+  if root.user?._id != Meteor.userId()
+    console.log "LOGGED IN"
+    mid.onLogin()
+
+loggedOut = -> if root.user then mid.onLogout()
 
 initCollections = ->
-  Meteor.autorun -> if Meteor.user() then loggedIn()
+  Meteor.autorun ->
+    if Meteor.user() then loggedIn()
+    else loggedOut()
   Meteor.subscribe 'maze', ->
     root.subscribed = true
     maze = root.maze = new Meteor.Collection 'maze'

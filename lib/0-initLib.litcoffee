@@ -1,3 +1,3 @@
-    (window ? global).Solomon = root = {}
+    (window ? global).Solomon = root = players: []
 
     root.handlers = {}

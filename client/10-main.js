@@ -5,6 +5,7 @@ var teamChat = Solomon.Middleware.teamChat;
 var offerMap = Solomon.Middleware.offerMap = {};
 var clampWidth = null;
 var clampHeight = null;
+var movePlayer = null;
 var tileSize = 0;
 var viewPortWidth = null;
 var viewPortHeight = null;
@@ -42,9 +43,7 @@ Gui.g = {
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
-	Solomon.user.x = clampWidth(Solomon.user.x + deltaX);
-	Solomon.user.y = clampHeight(Solomon.user.y + deltaY);
-	Solomon.maze.update(Solomon.user._id, Solomon.user);
+	movePlayer(Solomon.user, Solomon.user.x + deltaX, Solomon.user.y + deltaY);
 };
 
 Gui.sendMessage = function (target) {
@@ -136,20 +135,23 @@ function changePlayer(changeType, item) {
 		if ($('#' + item._id).length == 0) {
 			$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
 		}
+		Solomon.players[item._id] = item;
 		updatePlayer(item);
 		break;
 	case 'changed':
+		Solomon.players[item._id] = item;
 		updatePlayer(item);
 		break;
 	case 'removed':
-		$("##{item._id}").remove();
+		delete Solomon.players[item._id];
+		$("#" + item._id).remove();
 		break;
 	}
 }
 
 function getSizes() {
 	if ($('#world:first').length) {
-		tileSize = $('#world:first')[0].offsetWidth;
+		tileSize = $('#world').children().children()[0].offsetWidth;
 		viewPortWidth = $('#localViewInner').innerWidth();
 		viewPortHeight = $('#localViewInner').innerWidth();
 		return true;
@@ -301,6 +303,7 @@ Solomon.onStart(function() {
 
 	clampWidth = Solomon.World.clampWidth;
 	clampHeight = Solomon.World.clampHeight;
+	movePlayer = Solomon.World.movePlayer;
 	map = Solomon.maze.findOne("world").map;
 	Gui.g.revealedMap = [];
 	for (i = 0; i < map.length; i++) {
