@@ -56,13 +56,16 @@ Gui.sendMessage = function (target) {
 };
 
 Gui.playerMoved = function (player, map) {
-	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY, playerLocations;
+	var iMoved, playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY, playerLocations;
 	
 	if (typeof player.x === 'undefined' || !Solomon.World.ready) {
 		return;
 	}
-	playerX = player.x;
-	playerY = player.y;
+	
+	iMoved = player._id === Meteor.userId;
+	
+	playerX = Solomon.user.x;
+	playerY = Solomon.user.y;
 	
 	topCornerX = clampWidth(playerX - Gui.g.OFFSET_X);
 	topCornerY = clampHeight(playerY - Gui.g.OFFSET_Y);
@@ -70,7 +73,7 @@ Gui.playerMoved = function (player, map) {
 	bottomCornerY = clampHeight(playerY + Gui.g.OFFSET_Y) + 1;
 
 	if (Gui.g.revealedMap.length) {
-		playerLocations = _.map(Solomon.Middleware.players, function(v) {
+		playerLocations = _.map(Solomon.players, function(v) {
 			return v._id === Meteor.userId() ? null : {x: v.x, y: v.y};
 		});
 		for (j = topCornerY; j < bottomCornerY; j++) {
