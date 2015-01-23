@@ -3,6 +3,8 @@ var Gui = Solomon.Gui = {};
 var speak = Solomon.Middleware.speak;
 var teamChat = Solomon.Middleware.teamChat;
 var offerMap = Solomon.Middleware.offerMap = {};
+var clampWidth = null;
+var clampHeight = null;
 var tileSize = 0;
 var viewPortWidth = null;
 var viewPortHeight = null;
@@ -13,6 +15,7 @@ Gui.setMapSize = function(width, height) {
 	mapWidth = width;
 	mapHeight = height;
 }
+
 var shareMaps = Solomon.Middleware.shareMaps;
 
 Gui.g = {
@@ -39,8 +42,8 @@ Gui.g = {
 };
 
 Gui.arrowKeyPressed = function (deltaX, deltaY) {
-	Solomon.user.x += deltaX;
-	Solomon.user.y += deltaY;
+	Solomon.user.x = clampWidth(Solomon.user.x + deltaX);
+	Solomon.user.y = clampHeight(Solomon.user.y + deltaY);
 	Solomon.maze.update(Solomon.user._id, Solomon.user);
 };
 
@@ -55,30 +58,35 @@ Gui.sendMessage = function (target) {
 
 Gui.playerMoved = function (player, map) {
 	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY;
-	if (typeof player.x === 'undefined') {
+	
+	if (typeof player.x === 'undefined' || !Solomon.World.ready) {
 		return;
 	}
 	playerX = player.x;
 	playerY = player.y;
 	
-	topCornerX = playerX - Gui.g.OFFSET_X;
-	topCornerY = playerY - Gui.g.OFFSET_Y;
-	bottomCornerX = playerX + Gui.g.OFFSET_X + 1;
-	bottomCornerY = playerY + Gui.g.OFFSET_Y + 1;
-	
-	for (j = topCornerY; j < bottomCornerY; j++) {
-		for (i = topCornerX; i < bottomCornerX; i++) {
-			Gui.g.revealedMap[j][i] = map[i][j];
-			/*
-			 *	e "empty.png"
-				f "floor.png"
-				p "pit.png"
-				w "wall.png"
-				x "exit.png"				
-				z "food.png"
-			 */
-			Gui.context.fillStyle = Gui.g.rgbMap[map[i][j]];
-			Gui.context.fillRect(i * 5, j * 5, 5, 5);
+	topCornerX = clampWidth(playerX - Gui.g.OFFSET_X);
+	topCornerY = clampHeight(playerY - Gui.g.OFFSET_Y);
+	bottomCornerX = clampWidth(playerX + Gui.g.OFFSET_X) + 1;
+	bottomCornerY = clampHeight(playerY + Gui.g.OFFSET_Y) + 1;
+
+	if (Gui.g.revealedMap.length) {
+		for (j = topCornerY; j < bottomCornerY; j++) {
+			for (i = topCornerX; i < bottomCornerX; i++) {
+				//Gui.g.revealedMap[j][i] = map[i][j];
+				Gui.g.revealedMap[j][i] = map[j][i];
+				/*
+				 *	e "empty.png"
+				 f "floor.png"
+				 p "pit.png"
+				 w "wall.png"
+				 x "exit.png"				
+				 z "food.png"
+				 */
+				
+				Gui.context.fillStyle = playerX == i && playerY == j ? '#f00' : Gui.g.rgbMap[map[j][i]] || '#000';
+				Gui.context.fillRect(i * 5, j * 5, 5, 5);
+			}
 		}
 	}
 };
@@ -141,20 +149,16 @@ function getSizes() {
 
 function updatePlayer(item) {
 	var el = $('#' + item._id);
-	var itemX = item.x * tileSize;
-	var itemY = item.y * tileSize;
+	var itemX = item.x * tileSize + (tileSize - el.width()) / 2;
+	var itemY = item.y * tileSize + (tileSize - el.height()) / 2;
 
 	console.log("updating player: " + item.username);
 	el.css('left', itemX + 'px').css('top', itemY + 'px');
 	if (item._id == Meteor.userId()) {
-		var offset = tileSize / 2;
-		//var worldX =  Math.max(viewPortWidth - mapWidth, Math.min(0, (itemX - viewPortWidth / 2 - offset)));
-		//var worldY = Math.max(viewPortHeight - mapHeight, Math.min(0, (itemY - viewPortHeight / 2 - offset)));
-		var worldX = viewPortWidth / 2 - (itemX + offset);
-		var worldY = viewPortHeight / 2 - (itemY + offset);
-
+		var worldX = viewPortWidth / 2 - (item.x + 0.5) * tileSize;
+		var worldY = viewPortHeight / 2 - (item.y + 1.5) * tileSize;
 		$("#world").css('left', worldX + 'px').css('top', worldY + 'px');
-		Gui.playerMoved(Meteor.user(), Solomon.maze.findOne("world").map);
+		Gui.playerMoved(item, Solomon.maze.findOne("world").map);
 	}
 }
 
@@ -266,20 +270,30 @@ $(document).ready(function () {
 	  Gui.canvasElem.attr("height", Gui.canvasElem.height());
 	  Gui.canvasElem.attr("width", Gui.canvasElem.width());
 	  Gui.context = Gui.canvasElem[0].getContext("2d");
+	//Gui.context.scale(1, -1);
+	//Gui.context.translate(0, -Gui.canvasElem.height());
 	  Solomon.Gui.context.fillStyle = '#000';
-	  for (var i in Solomon.Middleware.players) {
-		  var player = Solomon.Middleware.players[i];
+});
 
-		  changePlayer('added', player);
-	  }
-	  map = Solomon.maze.findOne("world").map;
-	  Gui.g.revealedMap = [];
-	  for (i = 0; i < map.length; i++) {
-		Gui.g.revealedMap[i] = [];
-		for (j = 0; j < map[i].length; j++) {
-			Gui.g.revealedMap[i][j] = null;
+Solomon.onStart(function() {
+	var i;
+
+	clampWidth = Solomon.World.clampWidth;
+	clampHeight = Solomon.World.clampHeight;
+	map = Solomon.maze.findOne("world").map;
+	Gui.g.revealedMap = [];
+	for (i = 0; i < map.length; i++) {
+		var n = [];
+		Gui.g.revealedMap.push(n);
+		for (var j = 0; j < map[i].length; j++) {
+			n.push(null);
 		}
-	  }
+	}
+	for (i in Solomon.Middleware.players) {
+		var player = Solomon.Middleware.players[i];
+
+		changePlayer('added', player);
+	}
 });
 
 Gui.changePlayer = changePlayer;

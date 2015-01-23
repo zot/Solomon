@@ -1,6 +1,9 @@
 {
   Gui:gui,
   Middleware:mid,
+  setSubscribed,
+  setReady,
+  onStart,
 } = root = (window ? global).Solomon
 
 handleChange = (changeType, item)->
@@ -23,9 +26,11 @@ initCollections = ->
       added: (item)-> handleChange 'added', item
       removed: (item)-> handleChange 'removed', item
       changed: (item)-> handleChange 'changed', item
-    mid.subscribed()
+    setSubscribed()
 
 if Meteor.isClient
+  onStart -> mid.subscribed()
+  $(document).ready -> setReady()
   initCollections()
 
 #if Meteor.isServer

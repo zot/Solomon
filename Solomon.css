@@ -190,6 +190,7 @@
 }
 .mapRow {
 	display: block;
+	height: 64px;
 }
 .mapTile {
 	width: 64px;
@@ -204,4 +205,20 @@
 }
 #dialog-confirm-share, #dialog-agree-to-share {
 	display:							none;
+}
+#measureVert {
+	background-color: black;
+	width: 2px;
+	height: 100%;
+	position: absolute;
+	left: calc(50% - 1px);
+	top: 0;
+}
+#measureHoriz {
+	background-color: black;
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	top: calc(50% - 1px);
+	left: 0;
 }
