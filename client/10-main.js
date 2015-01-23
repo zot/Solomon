@@ -116,25 +116,28 @@ Gui.receiveMessage = function (changeType, item) {
 	}
 };
 
+function validView() {
+	return viewPortWidth != null || getSizes();
+}
+
 function changePlayer(changeType, item) {
-	if (viewPortWidth == null) {
-		if (!getSizes()) return;
-	}
 	switch (changeType) {
 	case 'added':
-		if ($('#' + item._id).length == 0) {
-			$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
-		}
 		Solomon.players[item._id] = item;
-		updatePlayer(item);
+		if (validView()) {
+			if ($('#' + item._id).length == 0) {
+				$("#world").append("<div id='" + item._id + "' class='character' style='left: 224px; top: 160px; background-color: orange'>" + item.username + "</div>");
+			}
+			updatePlayer(item);
+		}
 		break;
 	case 'changed':
 		Solomon.players[item._id] = item;
-		updatePlayer(item);
+		validView() && updatePlayer(item);
 		break;
 	case 'removed':
 		delete Solomon.players[item._id];
-		$("#" + item._id).remove();
+		validView() && $("#" + item._id).remove();
 		break;
 	}
 }
@@ -279,7 +282,11 @@ $(document).ready(function () {
 
 Solomon.onStart(function() {
 	var i;
+	var p = Solomon.maze.find({type: 'player'}).fetch();
 
+	for (i = 0; i < p.length; i++) {
+		Solomon.players[p[i]._id] = p[i];
+	}
 	clampWidth = Solomon.World.clampWidth;
 	clampHeight = Solomon.World.clampHeight;
 	movePlayer = Solomon.World.movePlayer;
@@ -292,8 +299,8 @@ Solomon.onStart(function() {
 			n.push(null);
 		}
 	}
-	for (i in Solomon.Middleware.players) {
-		var player = Solomon.Middleware.players[i];
+	for (i in Solomon.players) {
+		var player = Solomon.players[i];
 
 		changePlayer('added', player);
 	}
