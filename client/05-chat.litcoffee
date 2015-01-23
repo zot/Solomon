@@ -13,29 +13,37 @@
           when 'added', 'changed'
             players[item._id] = item
             if item._id == user?._id then user = item
-          when 'removed' then delete players[item._id]
+          when 'removed'
+            delete players[item._id]
+            if item._id == user?._id then root.user = user = null
 
     handleDataChange = (changeType, item)-> changeTypes[item.type]?(changeType, item)
 
     getUser = -> if maze && root.subscribed && Meteor.user() then initUser()
 
-    initUser = _.once ->
-      root.user = user = maze.findOne Meteor.userId()
-      if !user
-        root.user = user =
-          _id: Meteor.userId()
-          type: 'player'
-          username: Meteor.user().username
-          x: 17
-          y: 23
-        maze.insert user
-      $(document).ready -> root.World.replaceWorld()
+    initUser = ->
+      if !root.user
+        root.user = user = maze.findOne Meteor.userId()
+        if !user then root.onStart ->
+          [x, y] = root.World.randomStartLocation()
+          root.user = user =
+            _id: Meteor.userId()
+            type: 'player'
+            username: Meteor.user().username
+            x: x
+            y: y
+          maze.insert user
 
     subscribed = ->
+      #maze = root.maze
+      #getUser()
+
+    onLogin = -> root.onStart ->
       maze = root.maze
       getUser()
 
-    onLogin = -> getUser()
+    onLogout = ->
+      if user? then root.maze.remove user._id
 
     movePlayer = (x, y)->
       player = players[Meteor.userId()]
@@ -71,6 +79,7 @@
     exp.speak = speak
     exp.teamChat = teamChat
     exp.onLogin = onLogin
+    exp.onLogout = onLogout
     exp.subscribed = subscribed
     exp.handleDataChange = handleDataChange
     exp.players = players

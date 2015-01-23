@@ -1,3 +1,6 @@
+body {
+	background-color: rgb(136, 123, 60);
+}
 #innerContainer {
 	margin:								0 auto 5px;
 	position:							relative;
