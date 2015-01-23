@@ -20,8 +20,8 @@ var shareMaps = Solomon.Middleware.shareMaps;
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here...",
-	OFFSET_X : 7,
-	OFFSET_Y : 5,
+	OFFSET_X : 4,
+	OFFSET_Y : 3,
 	revealedMap : [],
 	rgbMap : {
 		'e' : '#ddd',
