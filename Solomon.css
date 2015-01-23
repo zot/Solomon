@@ -1,5 +1,6 @@
 body {
 	background-color: rgb(136, 123, 60);
+	font-family: Arial;
 }
 #innerContainer {
 	margin:								0 auto 5px;
