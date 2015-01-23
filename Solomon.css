@@ -8,11 +8,11 @@
 	font-size:							32px;
 	position:							relative;
 	text-align:							center;
-	top:								-20px;
+	top:								-4px;
 	z-index:							-1;
 }
 
-#toggleSound {
+#controls {
 	position:							absolute;
 	right:								0;
 	top:								0;
@@ -142,11 +142,6 @@
 	top:								160px;
 }
 
-.wallBlock {
-	background-color:					brown;
-	position:							absolute;
-}
-
 #foo {
 	height:								32px;
 	left:								32px;
@@ -228,4 +223,8 @@
 	position: absolute;
 	top: calc(50% - 1px);
 	left: 0;
+}
+#login-dropdown-list {
+	left:								auto !important;
+	right:								-1px !important;
 }
