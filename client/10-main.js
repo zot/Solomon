@@ -21,8 +21,8 @@ var shareMaps = Solomon.Middleware.shareMaps;
 
 Gui.g = {
 	DEFAULT_CHAT_TEXT : "Type chat message here...",
-	OFFSET_X : 7,
-	OFFSET_Y : 5,
+	OFFSET_X : 4,
+	OFFSET_Y : 3,
 	revealedMap : [],
 	rgbMap : {
 		'e' : '#ddd',
@@ -56,7 +56,7 @@ Gui.sendMessage = function (target) {
 };
 
 Gui.playerMoved = function (player, map) {
-	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY;
+	var playerX, playerY, startX, startY, topCornerX, topCornerY, i, j, bottomCornerX, bottomCornerY, playerLocations;
 	
 	if (typeof player.x === 'undefined' || !Solomon.World.ready) {
 		return;
@@ -70,6 +70,9 @@ Gui.playerMoved = function (player, map) {
 	bottomCornerY = clampHeight(playerY + Gui.g.OFFSET_Y) + 1;
 
 	if (Gui.g.revealedMap.length) {
+		playerLocations = _.map(Solomon.Middleware.players, function(v) {
+			return v._id === Meteor.userId() ? null : {x: v.x, y: v.y};
+		});
 		for (j = topCornerY; j < bottomCornerY; j++) {
 			for (i = topCornerX; i < bottomCornerX; i++) {
 				//Gui.g.revealedMap[j][i] = map[i][j];
@@ -83,7 +86,14 @@ Gui.playerMoved = function (player, map) {
 				 z "food.png"
 				 */
 				
-				Gui.context.fillStyle = playerX == i && playerY == j ? '#f00' : Gui.g.rgbMap[map[j][i]] || '#000';
+				Gui.context.fillStyle = playerX == i && playerY == j ? '#f00' : Gui.g.rgbMap[map[j][i]] || '#000';				
+				
+				_.each(playerLocations, function (v) {
+					if (v && v.x === i && v.y === j) {
+						Gui.context.fillStyle = '#00f';
+					}
+				});
+				
 				Gui.context.fillRect(i * 5, j * 5, 5, 5);
 			}
 		}
@@ -163,8 +173,8 @@ function updatePlayer(item) {
 		var worldX = viewPortWidth / 2 - (item.x + 0.5) * tileSize;
 		var worldY = viewPortHeight / 2 - (item.y + 1.5) * tileSize;
 		$("#world").css('left', worldX + 'px').css('top', worldY + 'px');
-		Gui.playerMoved(item, Solomon.maze.findOne("world").map);
 	}
+	Gui.playerMoved(item, Solomon.maze.findOne("world").map);
 }
 
 changeTypes = {
@@ -225,6 +235,14 @@ Gui.askToShareMaps = function (event, ui) {
 	});
 };
 
+Gui.toggleSound = function () {
+	if ($('#regularBackground')[0].paused) {
+		document.getElementById('regularBackground').play();
+	} else {
+		document.getElementById('regularBackground').pause();
+	}
+}
+
 $(document).keydown(function (event) {
 	switch (event.keyCode) {
 	case 37:
@@ -245,8 +263,11 @@ $(document).keydown(function (event) {
 	return false;
 });
 
+
+
 $(document).ready(function () {
 	var map, i, j;
+	  $('#toggleSound').click(Gui.toggleSound);
 	  $("#chatTabs").tabs();
 	  $(".chatInput").val(Gui.g.DEFAULT_CHAT_TEXT);
 	  $(".chatInput").focus(function () {
