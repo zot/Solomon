@@ -1,0 +1,6 @@
+* Isometric tiles
+* 2D levels only to start with
+** Move to full 3D later
+*** 2D levels with "connectors" like stairs?
+*** Level editor can swap floors that are above each other
+**** editor would present Leisure content selectively (new type of view)

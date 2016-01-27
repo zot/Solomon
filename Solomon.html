@@ -1,95 +1,97 @@
-<head>
-	<title>Solomon</title>
-	<link href="/reset.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/jquery-ui-1.11.2.custom/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/jquery-ui-1.11.2.custom/external/jquery/jquery.js"></script>
-	<script type="text/javascript" src="/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
-	<script type="text/javascript" src="/jquery.ui-contextmenu.min.js"></script>
-</head>
-
-<body>
-	<audio id="regularBackground" loop>
-		<source src="regular_background.mp3" type="audio/mpeg">
-	</audio>
-	<div id="outerContainer"><div id="innerContainer">
+<html>
+  <head>
+    <title>Solomon</title>
+    <link href="/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/jquery-ui-1.11.2.custom/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/jquery-ui-1.11.2.custom/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
+    <script type="text/javascript" src="/jquery.ui-contextmenu.min.js"></script>
+  </head>
+  <body>
+    <audio id="regularBackground" loop>
+      <source src="regular_background.mp3" type="audio/mpeg">
+    </audio>
+    <div id="outerContainer">
+      <div id="innerContainer">
 	<div id="controls">
-  		<button id="toggleSound">Toggle Sound</button>
-  		{{> loginButtons}}
+  	  <button id="toggleSound">Toggle Sound</button>
+  	  {{> loginButtons}}
   	</div>
   	<div id="gameTitleBar">Escape from King Solomon's Mines</div>
 	<div class="ui-widget-content ui-corner-all viewPort" id="localView">
-		<div id="localViewInner">
-		  <div id="world"><div class='mapRow'><div class='mapTile'></div></div></div>
-		  <!--<div class="character" id="me">Me</div>-->
-                </div>
-                <div id="measureVert"></div>
-                <div id="measureHoriz"></div>
+	  <div id="localViewInner">
+	    <div id="world"><div class='mapRow'><div class='mapTile'></div></div></div>
+	    <!--<div class="character" id="me">Me</div>-->
+          </div>
+          <div id="measureVert"></div>
+          <div id="measureHoriz"></div>
 	</div>
 	<div class="ui-widget-content ui-corner-all viewPort" id="mapView">
-		<canvas id="map" title="Your map will be revealed as you move. You can also share maps with your team."></canvas>
-		<div id="mapViewLabel">
-			Map
-		</div>
+	  <canvas id="map" title="Your map will be revealed as you move. You can also share maps with your team."></canvas>
+	  <div id="mapViewLabel">
+	    Map
+	  </div>
 	</div>
 	<div class="viewPort" id="chatView">
-		<div id="chatTabs">
-			<ul>
-				<li><a href="#speak">Speak</a></li>
-				<li><a href="#teamChat">Team Chat</a></li>
-			</ul>
-			<div id="speak">
-				<div class="chatBody">
-					<div class="systemMessage">This area is for speaking with anyone within earshot. Any character listed as Nearby will see messages you type here.</div>
-				</div>
-				<input type="text" class="chatInput">
-			</div>
-			<div id="teamChat">
-				<div class="chatBody">
-					<div class="systemMessage">This area is for speaking with your team, regardless of where they are.</div>
-				</div>
-				<input type="text" class="chatInput">
-			</div>
-		</div>
+	  <div id="chatTabs">
+	    <ul>
+	      <li><a href="#speak">Speak</a></li>
+	      <li><a href="#teamChat">Team Chat</a></li>
+	    </ul>
+	    <div id="speak">
+	      <div class="chatBody">
+		<div class="systemMessage">This area is for speaking with anyone within earshot. Any character listed as Nearby will see messages you type here.</div>
+	      </div>
+	      <input type="text" class="chatInput">
+	    </div>
+	    <div id="teamChat">
+	      <div class="chatBody">
+		<div class="systemMessage">This area is for speaking with your team, regardless of where they are.</div>
+	      </div>
+	      <input type="text" class="chatInput">
+	    </div>
+	  </div>
 	</div>
 	<div class="ui-widget-content ui-corner-all viewPort" id="statsView">
-		<div class="statsSection" id="inventory">
-			<div class="statsSectionName">Inventory</div>
-			<div class="statsTray">
-				<div class="inventoryItem"></div>
-				<div class="inventoryItem"></div>
-				<div class="inventoryItem"></div>
-				<div class="inventoryItem"></div>
-				<div class="inventoryItem"></div>
-			</div>
-		</div>
-		<div class="statsSection" id="vitals">
-			<div class="statsSectionName">Vitals</div>
-			<div class="statsTray">
-				<!--<div class="vitalsItem">Health: 100%</div>
-				<div class="vitalsItem">Hunger: 100%</div>-->
-			</div>
-		</div>
-		<div class="statsSection" id="team">
-			<div class="statsSectionName">Team</div>
-			<div class="statsTray">
-				<div class="personStats billPic">bill</div>
-				<div class="personStats rotemPic">rotem</div>
-				<div class="personStats royPic">roy</div>
-			</div>
-		</div>
-		<div class="statsSection" id="nearby">
-			<div class="statsSectionName">Nearby</div>
-			<div class="statsTray">
-				<!--<div class="personStats billPic">bill</div>-->
-			</div>
-		</div>
+	  <div class="statsSection" id="inventory">
+	    <div class="statsSectionName">Inventory</div>
+	    <div class="statsTray">
+	      <div class="inventoryItem"></div>
+	      <div class="inventoryItem"></div>
+	      <div class="inventoryItem"></div>
+	      <div class="inventoryItem"></div>
+	      <div class="inventoryItem"></div>
+	    </div>
+	  </div>
+	  <div class="statsSection" id="vitals">
+	    <div class="statsSectionName">Vitals</div>
+	    <div class="statsTray">
+	      <!--<div class="vitalsItem">Health: 100%</div>
+		  <div class="vitalsItem">Hunger: 100%</div>-->
+	    </div>
+	  </div>
+	  <div class="statsSection" id="team">
+	    <div class="statsSectionName">Team</div>
+	    <div class="statsTray">
+	      <div class="personStats billPic">bill</div>
+	      <div class="personStats rotemPic">rotem</div>
+	      <div class="personStats royPic">roy</div>
+	    </div>
+	  </div>
+	  <div class="statsSection" id="nearby">
+	    <div class="statsSectionName">Nearby</div>
+	    <div class="statsTray">
+	      <!--<div class="personStats billPic">bill</div>-->
+	    </div>
+	  </div>
 	</div>
 	<div id="dialog-confirm-share" title="Confirm Sharing Map?">
-		<div>Do you really want to ask <span class="shareName"></span> to share maps?</div>
+	  <div>Do you really want to ask <span class="shareName"></span> to share maps?</div>
 	</div>
 	<div id="dialog-agree-to-share" title="Map Sharing Request">
-		<div>Player <span class="shareName"></span> wants to share maps with you. Do you agree?</div>
+	  <div>Player <span class="shareName"></span> wants to share maps with you. Do you agree?</div>
 	</div>
-	</div></div>
-</body>
-
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+* context
+** MOVED tiles to baseTiles
+** name tile sets
+** use app var for tile set name
+** TODO change world view to use letter-named tiles

@@ -1,0 +1,898 @@
+* Notes
+:properties:
+:note: sidebar
+:end:
+Illuminated programming
+- Collaborative
+- Interactive
+- Operable, containing runnable parts like examples (reproducible research)
+- Rich text and media
+- Illuminated programming is to literate programming as [[http://en.wikipedia.org/wiki/Illuminated_manuscript][illuminated]] manuscripts are to rich text documents
+- Illumination is the process of becoming one of the [[http://www.sjgames.com/illuminati/][Illuminati]] -- who wouldn't want that?
+
+Todo
+- handle player logouts
+- fix isLegal so players can't walk through each other
+- illuminate the game document
+- *FIX LIST LAYOUT*
+- *MAKE BOLD WORK IF IT ENDS IN PUNCTUATION!*
+- review techniques
+  - maybe some support should be moved into Leisure-proper
+- Enhance/add themes with music and sound for a more immersive development experience
+- pretty up regular code blocks (yaml, coffee, css, ...) -- hide boilerplate, etc.
+** Finished
+- make Solomon theme
+- finish game (or at least get to a cuttoff point)
+* Init
+#+BEGIN_SRC cs :results def
+Solomon = window.Solomon = window.Solomon ? {}
+Solomon.imageBase = Lounge.data.localURL ? ''
+#+END_SRC
+* Players
+#+BEGIN_SRC yaml :index players name, users email
+type: player
+email: bill@bill
+name: bill
+state: inactive
+image: bill.png
+x: 2
+y: 2
+#+END_SRC
+#+BEGIN_SRC yaml :index players name, users email
+type: player
+email: gilan@gilan
+name: gilan
+state: inactive
+image: gilan.png
+x: 18
+y: 6
+#+END_SRC
+#+NAME: game1
+#+BEGIN_SRC yaml :local
+type: game
+world: world1
+#+END_SRC
+#+NAME: counters
+#+BEGIN_SRC yaml
+msg: 0
+#+END_SRC
+* The map
+[[leisure:world1//world]]
+* World
+#+NAME: minimap
+#+BEGIN_SRC yaml :local
+type: minimap
+#+END_SRC
+
+#+NAME: world1
+#+BEGIN_SRC yaml
+- eeeeeeeeeeeeeeeeeeeeeeeeee5x11117eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- eeeeeeeeeeeeeeeeeeeeeeeeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- eeeeeeeeeeeeeeeeeeeeeeeeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 511111111111117eeeeeeeeeee4fffff3511111117eeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee4fffff34fffffff3eeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee4fffffffffffffp3eeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee4fffff3822222226eeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffpfffffff3eeeeeeeeeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeee8222f26eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeeeeeeeeeeee5f11117eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeee51117eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeee4fff3eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeee4fff3eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeee4fff3eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 4fffffffffffff3eeeee4fff3eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- 82222222f222226eeeee4fff3eeee4fffff3eeeeeeeeeeeeeeeeeeeeeeeeeeee
+- eeee5111f11117eeeeee4fff3eeee4fffff3eeeeee51111111111751117eeeee
+- eeee4ffffffff3eeeeee4fff3eeee4fffff35117ee4ffffffffff34fff3eeeee
+- eeee4ffffffff3eeeeee4fff3eeee4fffff34ff3ee4ffffffffff34fff3eeeee
+- eeee4ffffffff3eeeeee4fff3eeee4fffff34ff3ee4fffffffffffffff3eeeee
+- eeee4ffffffff3eeeeee4fff3eeee4fffff34ff3ee4ffffffffff382226eeeee
+- eeee82222f2226eeeeee4fff3eeee4fffff34ff3ee822222f22226eeeeeeeeee
+- eeeeeeee5f1111117eee4fff3eeee4fffff34ff351111111f7eeeeeeeeeeeeee
+- e51111174fffffff3eee822f6eeee8222f264ff34ffffffff351111117eeeeee
+- e4ffpff34fffffpf3511111f111751111f174pf34ffffffff34ffffff3eeeeee
+#+END_SRC
+
+#+NAME: tileTypes
+#+BEGIN_SRC yaml
+z: {type: food, image: z.png, subtype: }
+p: {type: pit, image: p.png, subtype: }
+e: {type: empty, image: e.png, subtype: }
+f: {type: floor, image: f.png, subtype: }
+c: {type: corner, image: c.png, subtype: }
+w: {type: wall, image: w.png, subtype: }
+x: {type: exit, image: x.png, subtype: }
+8: {type: corner, image: 8.png, subtype: 4}
+7: {type: corner, image: 7.png, subtype: 3}
+6: {type: corner, image: 6.png, subtype: 2}
+5: {type: corner, image: 5.png, subtype: 1}
+4: {type: wall, image: 4.png, subtype: 4}
+3: {type: wall, image: 3.png, subtype: 3}
+2: {type: wall, image: 2.png, subtype: 2}
+1: {type: wall, image: 1.png, subtype: 1}
+#+END_SRC
+* Views
+#+BEGIN_SRC html :defview world
+<div class='map'>{{#each this}}<div class='mapRow'>{{#each this}}<img src="{{imageBase}}tiles/{{this}}.png">{{/each}}</div>{{/each}}{{#find 'players'}}{{{view this}}}{{/find}}</div></div>
+#+END_SRC
+
+#+BEGIN_SRC html :defview game
+<div class='screen'>
+  <div id="outerContainer">
+    <div id="innerContainer">
+      <div id="gameTitleBar">Escape from King Solomon's Mines</div>
+      <div id="controls">
+        <button id="toggleSound">Toggle Sound</button>
+      </div>
+      <span id='login-dropdown-list'><!-- kludge for login panel --></span>
+      <div class='viewports'>
+        <div class="ui-widget-content ui-corner-all viewPort" id="localView">
+          <div id="localViewInner">
+            <div id="world">{{{view world}}}</div>
+            <div id="measureVert"></div>
+            <div id="measureHoriz"></div>
+          </div>
+          <div class="ui-widget-content ui-corner-all viewPort" id="mapView">
+            {{{view 'minimap'}}}
+            <div id="mapViewLabel">
+              Map
+            </div>
+          </div>
+          <div class="viewPort" id="chatView">
+            <div id="chatTabs">
+              <ul>
+                <li><a href="#speak">Speak</a></li>
+                <li><a href="#teamChat">Team Chat</a></li>
+              </ul>
+              <div id="speak">
+                <div class="chatBody">
+                  <!--div class="systemMessage">This area is for speaking with anyone within earshot. Any character listed as Nearby will see messages you type here.</div-->
+                  {{{view 'game1' 'speech'}}}
+                </div>
+                <input type="text" class="chatInput">
+              </div>
+              <div id="teamChat">
+                <div class="chatBody">
+                  <div class="systemMessage">This area is for speaking with your team, regardless of where they are.</div>
+                </div>
+                <input type="text" class="chatInput">
+              </div>
+            </div>
+          </div>
+          <div class="ui-widget-content ui-corner-all viewPort" id="statsView">
+            <div class="statsSection" id="inventory">
+              <div class="statsSectionName">Inventory</div>
+              <div class="statsTray">
+                <div class="inventoryItem"></div>
+                <div class="inventoryItem"></div>
+                <div class="inventoryItem"></div>
+                <div class="inventoryItem"></div>
+                <div class="inventoryItem"></div>
+              </div>
+            </div>
+            <div class="statsSection" id="vitals">
+              <div class="statsSectionName">Vitals</div>
+              <div class="statsTray">
+                <!--<div class="vitalsItem">Health: 100%</div>
+                    <div class="vitalsItem">Hunger: 100%</div>-->
+              </div>
+            </div>
+            <div class="statsSection" id="team">
+              <div class="statsSectionName">Team</div>
+              <div class="statsTray">
+                <div class="personStats billPic">bill</div>
+                <div class="personStats rotemPic">rotem</div>
+                <div class="personStats royPic">roy</div>
+              </div>
+            </div>
+            <div class="statsSection" id="nearby">
+              <div class="statsSectionName">Nearby</div>
+              <div class="statsTray">
+                <!--<div class="personStats billPic">bill</div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+#+END_SRC
+
+
+#+BEGIN_SRC html :defview player
+<img class='{{state}}-character' src='file:/players/{{image}}' style='{{objectCoords this}}'>
+#+END_SRC
+
+
+#+BEGIN_SRC html :defview minimap
+<canvas id="map" title="Your map will be revealed as you move. You can also share maps with your team."></canvas>
+#+END_SRC
+
+
+#+BEGIN_SRC html :defview player/chatIcon
+<img class='chatIcon' src='players/{{image}}'>
+#+END_SRC
+
+
+#+BEGIN_SRC html :defview chatLine
+<div>{{{view from 'chatIcon'}}}: {{msg}}</div>
+#+END_SRC
+
+
+#+BEGIN_SRC html :defview game/speech
+{{#myChats}}{{{view this}}}{{/myChats}}
+#+END_SRC
+
+
+#+BEGIN_SRC coffee :results def
+{
+  appendData,
+  findSlideId,
+  getData,
+  setData,
+  getDataNamed,
+  setDataNamed,
+  indexedCursor,
+  currentDocument,
+} = Leisure
+
+Solomon.WALLS = ['w', '1', '2', '3', '4', '5', '6', '7', '8', 'c', 'e']
+Solomon.FLOORS = FLOORS = ['f']
+Solomon.OFFSET_X = OFFSET_X = 4;
+Solomon.OFFSET_Y = OFFSET_Y = 3;
+Solomon.MINIMAP_BLOCK = MINIMAP_BLOCK = ('X' for x in [-OFFSET_X..OFFSET_X]).join ''
+Solomon.rgbMap = rgbMap =
+  e: '#ddd'
+  f: '#aaa'
+  p: '#000'
+  w: '#000'
+  x: '#0f0'
+  z: '#040'
+
+Solomon.focusMovement = focusMovement = -> $("#localViewKeys")[0].focus()
+
+Solomon.updateMinimap = updateMinimap = (player, world, minimap)->
+  if !minimap.data then return
+  if player.state != 'active'
+    delete minimap.data
+    setDataNamed 'minimap', minimap
+    return
+  minX = Math.max(0, player.x - OFFSET_X)
+  maxX = Math.min(world.width, player.x + OFFSET_X + 1)
+  updated = false
+  for y in [Math.max(0, player.y - OFFSET_Y)...Math.min(world.height, player.y + OFFSET_Y + 1)]
+    for x in [minX...maxX]
+      if minimap.data[y][x] == 'O'
+        updated = true
+        row = minimap.data[y]
+        newRow = row.substring(0, minX) + MINIMAP_BLOCK + row.substring(maxX)
+        minimap.data[y] = newRow.substring 0, world.width
+        break
+  if updated then setDataNamed 'minimap', minimap
+  else drawMinimap minimap
+
+Solomon.getCurrentData = getCurrentData = ->
+  game = Leisure.getDataNamed 'game1'
+  [playerBlock] = Leisure.getIndexedBlocks 'players', game.player
+  world = Leisure.getDataNamed game.world
+  {game, playerBlock, world}
+
+Solomon.findPlayer = findPlayer = (x, y)->
+  for player in indexedCursor(currentDocument, 'players').fetch()
+    if player.x == x && player.y == y then return player
+  null
+
+Solomon.randomStartLocation = randomStartLocation = (world)->
+  while true
+    x = Math.floor Math.random() * world.width
+    y = Math.floor Math.random() * world.height
+    if world.map[y][x] in FLOORS && !findPlayer(x, y) then return [x, y]
+
+Solomon.usePlayer = usePlayer = (player, game, world)->
+  game.player = player.name
+  minimap = getDataNamed 'minimap'
+  minimap.data = (('O' for col in [0...world.width]).join '' for row in [0...world.height])
+  updateMinimap player, world, minimap
+  setDataNamed 'minimap', minimap
+  setDataNamed 'game1', game
+
+breakPoint = -> if Solomon.breaks then debugger
+
+loggedIn = ->
+  breakPoint()
+  focusMovement()
+  if Solomon.loggedIn then return else Solomon.loggedIn = true
+  {game, world} = getCurrentData()
+  [x, y] = randomStartLocation world
+  user = Meteor.user()
+  if ind = Leisure.indexes.users
+    for email in user.emails
+      if playerIds = ind.get(email.address)
+        player = getData playerIds[0]
+        player.x = x
+        player.y = y
+        player.state = 'active'
+        setData playerIds[0], player
+        usePlayer player, game, world
+        return
+  player =
+    type: 'player'
+    email: user.emails[0].address
+    name: user.emails[0].address.match(/([^@]+)@/)[1]
+    image: 'unknown.png'
+    x: x
+    y: y
+    state: 'active'
+  appendData findSlideId('Players'), player, ':index players name, users email', ->
+    usePlayer player, game, world
+
+loggedOut = ->
+  focusMovement()
+  if !Solomon.loggedIn then return
+  else
+    Solomon.loggedIn = false
+    {playerBlock} = getCurrentData()
+    if player = playerBlock.yaml
+      player.state = 'inactive'
+      setData playerBlock._id, player
+
+runStart = ->
+  if !window.Solomon?.initialized
+    if !$("[data-view-link='game1'").length then return setTimeout runStart, 100
+    Solomon.initialized = true
+    Meteor.autorun ->
+      if Meteor.user() then loggedIn()
+      else loggedOut()
+    #$("#jqueryuiLink")[0].href = 'https://code.jquery.com/ui/1.9.1/themes/swanky-purse/jquery-ui.css'
+    $("#jqueryuiLink")[0].href = 'https://code.jquery.com/ui/1.11.1/themes/swanky-purse/jquery-ui.css'
+
+drawMinimap = (minimap)->
+  if (canvasElem = $('#map')).length
+    canvasElem.attr("height", canvasElem.height())
+    canvasElem.attr("width", canvasElem.width())
+    context = canvasElem[0].getContext("2d")
+    if !minimap.data
+      context.fillStyle = '#fff'
+      context.fillRect 0, 0, canvasElem.width(), canvasElem.height()
+      return
+    {world, playerBlock:{yaml:{x:playerX,y:playerY}}} = getCurrentData()
+    map = world.map
+    players = (p.yaml for p in indexedCursor(currentDocument, 'players').fetch())
+    for y in [0...minimap.data.length]
+      for x in [0...minimap.data[y].length]
+        if minimap.data[y][x] == 'O' then context.fillStyle = '#fff'
+        else
+          context.fillStyle = if minimap.data[y][x] == 'O' then '#fff'
+          else if playerX == x && playerY == y then '#f00'
+          else rgbMap[map[y][x]] || '#000'
+          for player in players
+            if player.x == x && player.y == y
+              context.fillStyle = '#00f'
+        context.fillRect(x * 5, y * 5, 5, 5);
+
+$(document).ready -> runStart()
+
+Solomon.drawMinimap = drawMinimap
+Solomon.breakPoint = breakPoint
+#+END_SRC
+
+
+#+BEGIN_SRC coffee :control minimap
+{
+  rgbMap,
+  getCurrentData,
+  drawMinimap,
+} = Solomon
+{
+  indexedCursor,
+  currentDocument,
+} = Leisure
+
+@initializeView = (view, minimap, minimapId)-> drawMinimap minimap
+#+END_SRC
+
+
+#+BEGIN_SRC coffee :control player
+{
+  getCurrentData,
+  findPlayer,
+  FLOORS,
+  OFFSET_X,
+  OFFSET_Y,
+  drawMinimap,
+  updateMinimap,
+  usePlayer,
+  randomStartLocation,
+} = Solomon
+{
+  getDataNamed,
+  currentDocument,
+} = Leisure
+
+@initializeView = (view, player, playerId)->
+  {game, world} = getCurrentData()
+  if Solomon.lastDocId != currentDocument.leisure.info._id && game.player == player.name
+    Solomon.lastDocId = currentDocument.leisure.info._id
+    setTimeout (->
+      {game, world} = getCurrentData()
+      [player.x, player.y] = randomStartLocation world
+      Leisure.setData playerId, player
+      usePlayer player, game, world), 1
+    return
+  v = $(view)
+  onScreen = v.closest('.screen').length
+  tileSize = if onScreen then 64 else 24
+  img = v.find 'img'
+  offsetX = (tileSize - img.width()) / 2
+  offsetY = (tileSize - img.height()) / 2
+  x = player.x ? 0
+  y = player.y ? 0
+  img.css('left', tileSize * x + offsetX + 'px').css('top', tileSize * y + offsetY + 'px')
+  if onScreen && game.player == player.name && player.state == 'active'
+     updateMinimap player, getCurrentData().world, getDataNamed 'minimap'
+     viewPortWidth = $('#localViewInner').innerWidth()
+     viewPortHeight = $('#localViewInner').innerHeight()
+     world = v.closest '#world'
+     worldX = Math.min 0, Math.max viewPortWidth - world.width(), viewPortWidth / 2 - (x + 0.5) * tileSize
+     worldY = Math.min 0, Math.max viewPortHeight - world.height(), viewPortHeight / 2 - (y + 0.5) * tileSize
+     world.css('left', worldX + 'px').css('top', worldY + 'px')
+  else drawMinimap getDataNamed 'minimap'
+
+Solomon.randomStartLocation = randomStartLocation
+#+END_SRC
+
+
+#+BEGIN_SRC coffee :control game
+{
+  WALLS,
+  getCurrentData,
+  findPlayer,
+  OFFSET_X,
+  OFFSET_Y,
+  focusMovement,
+} = Solomon ? {}
+{
+  serverIncrement,
+  appendData,
+  findSlideId,
+} = Leisure
+
+DEFAULT_CHAT_TEXT = "Type chat message here..."
+
+canSee = (player, x, y)->
+  Math.abs(player.x - x) <= OFFSET_X && Math.abs(player.y - y) <= OFFSET_Y
+
+clampXY = (world, x, y)->
+  [Math.min(world.width - 1, Math.max 0, x), Math.min(world.height - 1, Math.max 0, y)]
+
+isLegal = (world, player, x, y)->
+  p = findPlayer x, y
+  !(world.map[y][x] in WALLS) && (!p || p.name == player.name)
+
+# use the counters object to keep unique indexes for chat items?
+# keep counters on each player obj?
+addSpeech = (input)->
+  {game, playerBlock:{yaml:player,_id:playerId}, world} = getCurrentData()
+  serverIncrement 'counters.msg', 1, (err, msgId)->
+    if err
+      console.log err
+      return
+    chats = findSlideId 'Chats'
+    time = Date.now()
+    for p in Leisure.indexedCursor(Leisure.currentDocument, 'players').fetch()
+      if canSee player, p.yaml.x, p.yaml.y
+        appendData chats, (type: 'chatLine', msgId: [p._id, msgId], time: time, from: playerId, owner: p._id, msg: $(input).val()), ':index chats msgId'
+    $(input).val ''
+
+arrowKeyPressed = (e, deltaX, deltaY)->
+  e.preventDefault()
+  if !Solomon.loggedIn then return
+  {game, playerBlock, world} = getCurrentData()
+  if !playerBlock then return
+  player = playerBlock.yaml
+  playerId = playerBlock._id
+  [x, y] = clampXY world, player.x + deltaX, player.y + deltaY
+  if (x != player.x || y != player.y) && isLegal world, player, x, y
+    player.x = x
+    player.y = y
+    setData playerId, player
+
+handleMovement = (event)->
+  switch event.keyCode
+    when 37 then arrowKeyPressed event, -1, 0
+    when 38 then arrowKeyPressed event, 0, -1
+    when 39 then arrowKeyPressed event, 1, 0
+    when 40 then arrowKeyPressed event, 0, 1
+
+bindLocalView = (el, keys)->
+  $(el).mousedown (e)-> setTimeout focusMovement, 1
+  if !$(keys)[0].bound
+    $(keys)[0].bound = true
+    $(keys).keydown (event)-> handleMovement event
+
+@initializeView = (view)->
+  chatting = false
+  if Solomon.loginView then UI.remove Solomon.loginView
+  Solomon.loginView = UI.render Template.loginButtons
+  UI.insert Solomon.loginView, $("#controls")[0]
+  bindLocalView $('#localView'), $('#localViewKeys')
+  setTimeout (->if $('body').is(':not(.bar_collapse):not(.show-hidden)') then Leisure.toggleLeisureBar()), 100
+  $(view).find('#chatTabs').tabs()
+  $(".chatInput").val DEFAULT_CHAT_TEXT
+  $(".chatInput").focus ->
+    chatting = true
+    $(this).removeClass "notEmpty"
+    if $(this).val() == DEFAULT_CHAT_TEXT
+      $(this).val ""
+  .blur ->
+    chatting = false
+    if $(this).val().trim() == "" then $(this).val DEFAULT_CHAT_TEXT
+    else $(this).addClass "notEmpty"
+  .keydown (event)->
+    if event.keyCode == 13
+      addSpeech $(this)
+      focusMovement()
+    else if !chatting then handleMovement event
+  $('#toggleSound').click ->
+    if $('#regularBackground').prop 'paused'
+      $('#regularBackground')[0].play()
+    else $('#regularBackground')[0].pause()
+
+Solomon.canSee = canSee
+#+END_SRC
+
+
+#+BEGIN_SRC coffee :control game/speech
+@initializeView = (view)-> $(view).children().last()[0].scrollIntoView()
+#+END_SRC
+** Handlebars helpers for this app
+
+
+#+NAME: strArray
+Allow handlebars to access a string as if it were an array
+#+BEGIN_SRC coffee :results def
+Leisure.Handlebars.registerHelper 'strArray', (str)-> i for i in str
+#+END_SRC
+
+
+#+NAME: Tile Accessing
+getImage gets the image for a tile
+#+BEGIN_SRC coffee :results def
+#debugger
+Leisure.Handlebars.registerHelper 'imageBase', -> Solomon.imageBase
+#  "#{options.data.opts.localURL ? ''}tiles/#{item}.png"
+#+END_SRC
+
+
+#+NAME: Chat Accessing
+#+BEGIN_SRC coffee :results def
+Leisure.Handlebars.registerHelper 'myChats', (options)->
+  ret = "<span data-org-index='chats'></span>"
+  {playerBlock} = Solomon.getCurrentData?() ? {}
+  if playerBlock
+    (Leisure.indexedCursor null, 'chats').greaterThan([playerBlock._id]).lessThan([playerBlock._id + " "]).forEach (data)->
+      if data then ret += options.fn data
+  ret
+#+END_SRC
+
+
+#+NAME: Player Accessing
+objectCoords gets a player's coordinates
+#+BEGIN_SRC coffee :results def
+tileSize = 24
+playerSize = 24
+
+Leisure.Handlebars.registerHelper 'objectCoords', (item)->
+  "top: #{tileSize * item.y}px; left: #{tileSize * item.x}px"
+#+END_SRC
+* CSS
+Game CSS
+
+#+BEGIN_SRC css
+.flat [data-lang=yaml] [data-org-src] {
+  font-family: courier;
+  white-space: pre;
+}
+.gameMap, .map {
+  position: relative;
+  white-space: pre;
+}
+body.bar_collapse [data-slide-property-layout='maximize'],
+body.bar_collapse [data-property-layout='maximize']
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+body:not(.bar_collapse) .screen {
+  position: relative;
+}
+body.bar_collapse [data-property-layout='maximize'][data-org-headline='1']
+{
+  margin: 0;
+  padding: 0;
+}
+.screen {
+  background-color: rgb(136, 123, 60);
+  font-family: Arial;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#innerContainer {
+  margin: 0 auto 5px;
+  position: relative;
+  width: 1030px;
+}
+
+#gameTitleBar {
+  color: #fff;
+  font-size: 32px;
+  position: relative;
+  text-align: center;
+  top: -4px;
+}
+
+#controls {
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.viewports {
+  position: relative;
+  width: calc(2*500px + 3*10px);
+  height: calc(2*375px + 3*10px);
+/*
+  width: calc(1*500px + 2*10px);
+  height: calc(1*375px + 2*10px);
+*/
+}
+
+.viewPort {
+  border: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+#mapView {
+  height: 375px;
+  left: 520px;
+  top: 0;
+  width: 500px;
+}
+
+#localView {
+  height: 375px;
+  left: 10px;
+  top: 0;
+  width: 500px;
+}
+
+#localViewInner {
+  background-color: #fff;
+  bottom: 5px;
+  left: 5px;
+  overflow: hidden;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+#map {
+  background-color:  #fff;
+  height:  320px;
+  left:  90px;
+  position:  absolute;
+  top:  25px;
+  width:  320px;
+}
+
+#chatView {
+  height:  375px;
+  left:  10px;
+  top:  390px;
+  width:  500px;
+}
+
+#statsView {
+  height:  375px;
+  left:  520px;
+  top:  390px;
+  width:  500px;
+}
+
+.statsSection {
+  height: 80px;
+  position: relative;
+}
+
+.statsSectionName {
+  color:  #fff;
+  font-size:  24px;
+  margin:  10px;
+}
+
+#mapViewLabel {
+  color:  #fff;
+  font-size:  24px;
+  left:  10px;
+  position:  absolute;
+  top:  10px;
+}
+
+.statsTray {
+  left:  120px;
+  position:  absolute;
+  top:  0;
+}
+
+.inventoryItem, .vitalsItem, .personStats {
+  color:  #ff8;
+  display:  inline-block;
+  font-weight:  bold;
+  height:  64px;
+  outline:  1px solid #fff;
+  overflow:  hidden;
+  width:  64px;
+}
+
+.personStats {
+  font-size: 24px;
+}
+
+.personStats.billPic {
+  background-image: url(file:/bill.jpg);
+}
+
+.personStats.royPic {
+  background-image: url(file:/roy.jpg);
+}
+
+.personStats.rotemPic {
+  background-image: url(file:/rotem.jpg);
+}
+
+#chatTabs {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#me {
+  background-color: #00f;
+  left: 224px;
+  top: 160px;
+}
+
+#foo {
+  height: 32px;
+  left: 32px;
+  top: 32px;
+  width: 128px;
+}
+
+#bar {
+  height: 128px;
+  left: 256px;
+  top: 64px;
+  width: 32px;
+}
+
+.chatBody {
+  background-color: #fff;
+  color: #000;
+  height: 225px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.systemMessage {
+  color: #777;
+  font-style: italic;
+}
+
+.chatInput {
+  border: 0;
+  color: #777;
+  margin: 2px 0;
+  outline: 1px solid #000;
+  padding: 2px;
+  width: 432px;
+}
+
+.chatName {
+  color: #008;
+  font-weight: bold;
+}
+
+.chatInput:focus,
+.chatInput.notEmpty {
+  color: #000;
+}
+#world {
+  position: absolute;
+}
+.inactive-character {
+  display: none;
+}
+.screen .active-character {
+  height: 32px;
+  position: absolute;
+  width: 32px;
+}
+.chatIcon {
+  height: 32px;
+  width: 32px;
+  vertical-align: middle;
+}
+
+.active-character {
+  height: 24px;
+  position: absolute;
+  width: 24px;
+}
+
+.screen .mapRow {
+  height: 64px;
+}
+.mapRow {
+  display: block;
+  height: 24px;
+}
+.screen .map img {
+  width: 64px;
+  height: 64px;
+}
+.map img {
+  width: 24px;
+  height: 24px;
+  font-weight: bold;
+  font-size: 24pt;
+  display: inline-block;
+  overflow: clip;
+}
+.ui-menu-item {
+  font-weight: normal !important;
+}
+#dialog-confirm-share, #dialog-agree-to-share {
+  display: none;
+}
+#measureVert {
+  background-color: black;
+  display: none;
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 0;
+}
+#measureHoriz {
+  background-color: black;
+  display: none;
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+}
+#login-dropdown-list {
+  left: auto !important;
+  right: -1px !important;
+}
+#localViewKeys {
+  height: 0;
+  padding: 0;
+  border-width: 0;
+}
+#+END_SRC
