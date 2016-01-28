@@ -1,0 +1,47 @@
+#+TITLE: Test Isometric Tiles
+* Tiles
+#+BEGIN_HTML :var map=map
+<div class="map">
+{{#each map}}
+  <div class="row {{#if_even @index}} even{{/if_even}}">
+    {{#each this}}<div data-coords="{{@index}} {{@../index}}"><img src="images/{{this}}-iso.png"></div>{{/each}}
+  </div>
+{{/each}}
+</div>
+#+END_HTML
+
+#+NAME: map
+#+BEGIN_SRC yaml
+- bbsbssbbbnbbsb
+- sssbbsbsbsbbs
+- ssssssssssssss
+- bbbbbbbbbbbbbbb
+- ssssssssssssss
+- sbbbbbb
+#+END_SRC
+
+#+BEGIN_SRC coffee :results def
+Leisure.Handlebars.registerHelper 'if_even', (conditional, options)->
+  if (conditional % 2) == 0 then options.fn(this) else options.inverse(this)
+#+END_SRC
+
+#+BEGIN_SRC css
+.map {
+  margin-top: 3em;
+}
+.even {
+  padding-left: 20px;
+}
+.row {
+  height: 10px;
+}
+.row div {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+}
+.row img {
+  position: absolute;
+  bottom: 0;
+}
+#+END_SRC

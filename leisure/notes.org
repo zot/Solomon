@@ -1,4 +1,8 @@
 * Isometric tiles
+** [[isoTest.org]] demonstrates isommetric rendering
+** Use diagonal coordinates
+** Coords are stored in data-coords in image-holder divs
+** Convert view coords to map coords (always showing an offset in the map)
 * 2D levels only to start with
 ** Move to full 3D later
 *** 2D levels with "connectors" like stairs?
