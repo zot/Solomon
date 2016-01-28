@@ -115,7 +115,10 @@ x: {type: exit, image: x.png, subtype: }
 #+END_SRC
 * Views
 #+BEGIN_SRC html :defview world
-<div class='map'>{{#each this}}<div class='mapRow'>{{#each this}}<img src="{{imageBase}}tiles/{{this}}.png">{{/each}}</div>{{/each}}{{#find 'players'}}{{{view this}}}{{/find}}</div></div>
+<div class='map'>
+  {{#each this}}<div class='mapRow'>{{#each this}}<div class="sprite-{{this}} tile"></div>{{/each}}</div>{{/each}}
+  {{#find 'players'}}{{{view this}}}{{/find}}
+</div>
 #+END_SRC
 
 #+BEGIN_SRC html :defview game
@@ -588,6 +591,20 @@ playerSize = 24
 Leisure.Handlebars.registerHelper 'objectCoords', (item)->
   "top: #{tileSize * item.y}px; left: #{tileSize * item.x}px"
 #+END_SRC
+* Sprites
+#+BEGIN_SRC coffee :results def
+debugger
+for i of Lounge.data.getBlockNamed('tileTypes').yaml
+  do (i)-> Lounge.data.getFile "#{Solomon.imageBase}tiles/#{i}.png", (contents)->
+    $(document.head).append """
+      <style>
+        .sprite-#{i} {
+          background-image: url(data:image/png;base64,#{btoa contents});
+          background-repeat: no-repeat;
+        }
+      </style>
+    """
+#+END_SRC
 * CSS
 Game CSS
 
@@ -850,17 +867,18 @@ body.bar_collapse [data-property-layout='maximize'][data-org-headline='1']
   display: block;
   height: 24px;
 }
-.screen .map img {
+.screen .tile {
   width: 64px;
   height: 64px;
 }
-.map img {
+.tile {
   width: 24px;
   height: 24px;
   font-weight: bold;
   font-size: 24pt;
   display: inline-block;
   overflow: clip;
+  background-size: 100%;
 }
 .ui-menu-item {
   font-weight: normal !important;
