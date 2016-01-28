@@ -12,7 +12,7 @@
 
 #+NAME: map
 #+BEGIN_SRC yaml
-- bbsbssbbbnbbsb
+- bbsbssbbbbbsb
 - sssbbsbsbsbbs
 - ssssssssssssss
 - bbbbbbbbbbbbbbb
