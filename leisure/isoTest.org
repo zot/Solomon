@@ -17,6 +17,40 @@
 - GHIJKLMNOP
 #+END_SRC
 
+#+NAME: tileTypeData
+#+BEGIN_SRC yaml
+floor:
+  codes: abcdefghijk
+  offsetX: 0
+  offsetY: 0
+  width: 64
+  height: 32
+walls:
+  codes: lmnopq__rstuv
+  offsetX: 0
+  offsetY: 125
+  width: 64
+  height: 128
+objects:
+  codes: wx
+  offsetX: 0
+  offsetY: 640
+  width: 64
+  height: 64
+rocks:
+  codes: yzA
+  offsetX: 0
+  offsetY: 704
+  width: 64
+  height: 128
+water:
+  codes: BCDEFGH
+  offsetX: 0
+  offsetY: 832
+  width: 64
+  height: 64
+#+END_SRC
+
 #+BEGIN_SRC coffee :results def
 Handlebars.registerHelper 'if_even', (conditional, options)->
   if (conditional % 2) == 0 then options.fn(this) else options.inverse(this)
