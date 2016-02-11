@@ -1,6 +1,11 @@
 #+TITLE: Test Isometric Tiles
+* test
+#+BEGIN_SRC leisure :results dynamic
+floop x = x + 1
+floop 2
+#+END_SRC
 * Tiles
-#+BEGIN_HTML :var map=map
+#+BEGIN_HTML :var map
 <div class="map">
  {{#each map}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
@@ -46,6 +51,7 @@ Make sprites here. We can improve this later, putting all the sprites into on
 image, etc.
 
 #+BEGIN_SRC coffee :results def
+console.log "INIT"
 for i in "sb"
   do (i)-> Lounge.data.getFile "images/#{i}-iso.png", (contents)->
     $(document.head).append """
