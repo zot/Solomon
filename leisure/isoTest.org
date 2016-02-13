@@ -66,6 +66,9 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 .map {
   margin-top: 3em;
   width: 1024px;
+  overflow: hidden;
+  padding-bottom: 16px;
+  white-space: nowrap;
 }
 .row {
   height: 16px;
