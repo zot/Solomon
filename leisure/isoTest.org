@@ -1,10 +1,26 @@
 #+TITLE: Test Isometric Tiles
 * tests
-#+BEGIN_SRC leisure :results dynamic
-3+32
+#+BEGIN_SRC leisure :results Xdynamic
+#jsAdd x y = do
+#  j <- foreach js '(function (x, y){return x + y})'
+#  j x y
+#jsAdd 1 2
+define
+#do
+#  pl <- foreach js '(function (x,y) {return x + y;})'
+#  v <- pl 1 3
+#  v
 #+END_SRC
 #+RESULTS:
-: 35
+: <span class="partial-application">(define)</span>
+
+#+BEGIN_SRC coffee :results dynamic
+window.L = Lounge
+Leisure.getBlockNamed('tileSets')
+#+END_SRC
+#+RESULTS:
+: [object Object]
+: [object Object]
 * Tiles
 #+BEGIN_HTML :var map
 <div class="map">
@@ -18,12 +34,13 @@
 
 #+NAME: map
 #+BEGIN_SRC yaml
-- abcdefghijklmnop
+- abcdefghijk
+- lmnop
 - qrstuvwxyzABCDEF
 - GHIJKLMNOP
 #+END_SRC
 
-#+NAME: tileTypeData
+#+NAME: tileSets
 #+BEGIN_SRC yaml
 floor:
   codes: abcdefghijk
@@ -67,6 +84,7 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   margin-top: 3em;
   width: 1024px;
   overflow: hidden;
+  padding-top: 32px;
   padding-bottom: 16px;
   white-space: nowrap;
 }
@@ -86,7 +104,7 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 Make sprites here. We can improve this later, putting all the sprites into on
 image, etc.
 
-#+BEGIN_SRC coffee :results def
+#+BEGIN_SRC coffee :results defX
   Lounge.data.getFile "tiles/tileset_cave_1.png", (contents)->
     col = 0
     row = 0
@@ -116,4 +134,28 @@ image, etc.
         row++
     $('#tile-styles').remove()
     $(document.head).append "<style id='tile-styles'>#{str}</style>"
+#+END_SRC
+
+* Leisure code
+Primitives for Leisure
+#+BEGIN_SRC coffee :results def
+{define, right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
+
+define 'updateTiles', (str)->
+  new Monad2 (env, cont)->
+    $('#tile-styles').remove()
+    $(document.head).append "<style id='tile-styles'>#{resolve str}</style>"
+#+END_SRC
+
+#+BEGIN_SRC leisure :results def
+do
+  url <- foreach getImage 'tiles/tileset_cave_1.png'
+  codes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP"
+  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n' '}\n']) + (strCat (map (\i . do
+    row = floor (i / 16)
+    col = i % 16
+    s[s['.tile-sprite[data-letter=' (strAt codes i) '] {\n']
+      s['  background-position: -' (col * 64) 'px -' (row * 32) 'px !important;\n']
+      '}\n'])
+      (range 0 (strLen codes))))
 #+END_SRC
