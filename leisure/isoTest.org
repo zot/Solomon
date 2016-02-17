@@ -1,3 +1,35 @@
+* Map Tile Styles
+
+#+BEGIN_SRC leisure :results dynamic
+buildStyles data = strCat (map (\i . do
+  t = tail i
+  codes = ((assoc 'codes' t) id '')
+  offsetX = ((assoc 'offsetX' t) id 0)
+  topPos = ((assoc 'offsetY' t) id 0)
+  widthOfCurrent = ((assoc 'width' t) id 0)
+  strCat (map (\j . do
+    not (strAt codes j) == '_'
+    strCat (map (\k . do
+      leftPos = offsetX + widthOfCurrent * k
+      s[s['.tile-sprite[data-code="' (strAt codes j) k '"] {\n']
+      s['  background-position: -' leftPos 'px -' topPos 'px !important;\n']
+      s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
+      s['  width: ' widthOfCurrent 'px;\n']
+      s['}\n']])
+      (range 0 4)))
+    (range 0 (strLen codes))))
+  data)
+
+changeData
+  url <- foreach getImage 'tiles/tileset_cave_1.png'
+  data <- foreach getData 'tileSets'
+  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n' '}\n']) + (buildStyles data)
+
+
+1
+#+END_SRC
+
+
 #+TITLE: Test Isometric Tiles
 * tests
 #+BEGIN_SRC leisure :results dynamic
@@ -27,7 +59,7 @@ doMap i [1 2 3 4 5] (i + 1)
 <div class="map">
  {{#each map}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each this}}<div class="tile-sprite iso" data-letter="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+     {{#each this}}<div class="tile-sprite iso" data-code="{{this}}0" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
    </div>
  {{/each}}
 </div>
@@ -148,7 +180,7 @@ define 'updateTiles', (str)->
     $(document.head).append "<style id='tile-styles'>#{resolve str}</style>"
 #+END_SRC
 
-#+BEGIN_SRC leisure :results def
+#+BEGIN_SRC leisure :results xdef
 do
   url <- foreach getImage 'tiles/tileset_cave_1.png'
   codes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP"
@@ -159,4 +191,13 @@ do
       s['  background-position: -' (col * 64) 'px -' (row * 32) 'px !important;\n']
       '}\n'])
       (range 0 (strLen codes))))
+#+END_SRC
+
+#+BEGIN_SRC leisure :results dynamic
+buildStyles data = strCat (map (\i . do s[(head i) ' ']) data)
+
+changeData
+ data <- foreach getData 'tileSets'
+ print (buildStyles data)
+ 1
 #+END_SRC
