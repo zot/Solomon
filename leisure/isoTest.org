@@ -1,26 +1,27 @@
 #+TITLE: Test Isometric Tiles
 * tests
-#+BEGIN_SRC leisure :results Xdynamic
-#jsAdd x y = do
-#  j <- foreach js '(function (x, y){return x + y})'
-#  j x y
-#jsAdd 1 2
-define
-#do
-#  pl <- foreach js '(function (x,y) {return x + y;})'
-#  v <- pl 1 3
-#  v
-#+END_SRC
-#+RESULTS:
-: <span class="partial-application">(define)</span>
+#+BEGIN_SRC leisure :results dynamic
+handleListFuncMacro name numVars expr = do
+  vars = take numVars expr
+  r = drop numVars expr
+  list = head r
+  rest = tail r
+  print s['vars ' vars]
+  print s['list ' list]
+  print s['rest ' rest]
+  []
+  [name ['\\' | (append vars ['.' | (handleDo rest false id)])] list]
 
-#+BEGIN_SRC coffee :results dynamic
-window.L = Lounge
-Leisure.getBlockNamed('tileSets')
+defMacro 'doMap' \expr . handleListFuncMacro 'map' 1 expr
+
+simplify 'doMap i [1 2 3 4] (i + 1)'
+doMap i [1 2 3 4 5] (i + 1)
+#doMap i [1 2 3 4 5]
+#  print i
+#
+#3
+#map (\i . (+ i 1)) [1 2 3 4]
 #+END_SRC
-#+RESULTS:
-: [object Object]
-: [object Object]
 * Tiles
 #+BEGIN_HTML :var map
 <div class="map">
@@ -101,7 +102,8 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 }
 #+END_SRC
 
-Old CoffeeScript for sprites, changed to defX so it doesn't auto-load
+* Old CoffeeScript for sprites
+*changed to defX so it doesn't auto-load*
 
 #+BEGIN_SRC coffee :results defX
   Lounge.data.getFile "tiles/tileset_cave_1.png", (contents)->
@@ -136,8 +138,7 @@ Old CoffeeScript for sprites, changed to defX so it doesn't auto-load
 #+END_SRC
 
 * Leisure code
-Primitives for Leisure
-
+** Primitives for Leisure
 #+BEGIN_SRC coffee :results def
 {define, right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
 
