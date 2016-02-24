@@ -58,11 +58,16 @@ Leisure.getBlockNamed('tileSets')
 <div class="map">
  {{#each map}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each this}}<div class="tile-sprite iso" data-code="{{this}}0" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+     {{#each (stringChunk this 2)}}{{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}{{/each}}
    </div>
  {{/each}}
 </div>
 #+END_HTML
+
+#+BEGIN_SRC coffee :results def
+Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
+  _.chunk(string, chunkSize)
+#+END_SRC
 
 #+NAME: map
 #+BEGIN_SRC yaml
