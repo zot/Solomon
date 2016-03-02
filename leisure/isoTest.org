@@ -8,12 +8,14 @@ buildStyles data = strCat (map (\i . do
   topPos = ((assoc 'offsetY' t) id 0)
   widthOfCurrent = ((assoc 'width' t) id 0)
   strCat (map (\j . do
-    not (strAt codes j) == '_'
+    c = strAt codes j
+    not c == '_'
     strCat (map (\k . do
-      leftPos = offsetX + widthOfCurrent * k
-      s[s['.tile-sprite[data-code="' (strAt codes j) k '"] {\n']
-      s['  background-position: -' leftPos 'px -' topPos 'px !important;\n']
+      leftPos = offsetX + widthOfCurrent * k + (j % 4) * 4 * widthOfCurrent
+      s[s['.tile-sprite[data-code="' c k '"] {\n']
+      s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
       s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
+      s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
       s['  width: ' widthOfCurrent 'px;\n']
       s['}\n']])
       (range 0 4)))
@@ -23,7 +25,7 @@ buildStyles data = strCat (map (\i . do
 changeData
   url <- foreach getImage 'tiles/tileset_cave_1.png'
   data <- foreach getData 'tileSets'
-  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n' '}\n']) + (buildStyles data)
+  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n position: relative;\n vertical-align: top;\n' '}\n']) + (buildStyles data)
 
 
 1
@@ -74,8 +76,12 @@ Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
 
 #+NAME: map
 #+BEGIN_SRC yaml
-- a0
-- b0
+- a0a0a0a0a0a0a0
+- a0a0a0a0a0a0a0
+- a0a0a0a0a0a0a0
+- a0a0a0n0a0a0a0a0
+- a0a0l0l1
+- a0a0a0a0p0
 #+END_SRC
 
 #+NAME: tileSets
@@ -119,6 +125,7 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 
 #+BEGIN_SRC css
 .map {
+  background-color: #3a302e;
   margin-top: 3em;
   width: 1024px;
   overflow: hidden;
