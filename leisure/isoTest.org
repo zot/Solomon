@@ -28,6 +28,8 @@ changeData
 
 1
 #+END_SRC
+#+RESULTS:
+: 1
 
 
 #+TITLE: Test Isometric Tiles
@@ -59,7 +61,7 @@ doMap i [1 2 3 4 5] (i + 1)
 <div class="map">
  {{#each map}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each (stringChunk this 2)}}{{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}{{/each}}
+     {{#each (stringChunk this 2)}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
    </div>
  {{/each}}
 </div>
@@ -67,15 +69,13 @@ doMap i [1 2 3 4 5] (i + 1)
 
 #+BEGIN_SRC coffee :results def
 Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
-  _.chunk(string, chunkSize)
+  el.join '' for el in _.chunk(string, chunkSize)
 #+END_SRC
 
 #+NAME: map
 #+BEGIN_SRC yaml
-- abcdefghijk
-- lmnop
-- qrstuvwxyzABCDEF
-- GHIJKLMNOP
+- a0
+- b0
 #+END_SRC
 
 #+NAME: tileSets
