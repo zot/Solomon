@@ -1,6 +1,26 @@
+* Map
+#+BEGIN_HTML :var map
+<div class="map">
+ {{#each map}}
+   <div class="row {{#if_even @index}} even{{/if_even}}">
+     {{#each (stringChunk this 2)}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+   </div>
+ {{/each}}
+</div>
+#+END_HTML
+
+#+NAME: map
+#+BEGIN_SRC yaml
+- a0a0a0a0a0a0a0
+- a0a0a0a0a0a0a0
+- a0a0a0a0a0a0a0
+- a0a0a0n0a0a0a0a0
+- a0a0l0l1
+- a0a0a0a0p0
+#+END_SRC
 * Map Tile Styles
 
-#+BEGIN_SRC leisure :results dynamic
+#+BEGIN_SRC leisure :results def
 buildStyles data = strCat (map (\i . do
   t = tail i
   codes = ((assoc 'codes' t) id '')
@@ -21,18 +41,28 @@ buildStyles data = strCat (map (\i . do
       (range 0 4)))
     (range 0 (strLen codes))))
   data)
+#+END_SRC
 
+#+BEGIN_SRC leisure :results def
+  changeData
+    bgndUrl <- foreach getImage 'tiles/backgroundFloorTile.png'
+    updateStyles 'map-styles' s['.map {\n'
+      s['  background: url(' bgndUrl ');\n']
+      '}\n']
+#+END_SRC
+
+#+BEGIN_SRC leisure :results def
 changeData
   url <- foreach getImage 'tiles/tileset_cave_1.png'
   data <- foreach getData 'tileSets'
-  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n position: relative;\n vertical-align: top;\n' '}\n']) + (buildStyles data)
-
-
-1
+  updateStyles 'tile-styles' s['.tile-sprite {\n'
+    s['  background-image: url(' url ');\n']
+    '  background-repeat: no-repeat;\n'
+    '  position: relative;\n'
+    '  vertical-align: top;\n'
+    '}\n'
+    buildStyles data]
 #+END_SRC
-#+RESULTS:
-: 1
-
 
 #+TITLE: Test Isometric Tiles
 * tests
@@ -59,29 +89,9 @@ doMap i [1 2 3 4 5] (i + 1)
 #map (\i . (+ i 1)) [1 2 3 4]
 #+END_SRC
 * Tiles
-#+BEGIN_HTML :var map
-<div class="map">
- {{#each map}}
-   <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each (stringChunk this 2)}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
-   </div>
- {{/each}}
-</div>
-#+END_HTML
-
 #+BEGIN_SRC coffee :results def
 Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
   el.join '' for el in _.chunk(string, chunkSize)
-#+END_SRC
-
-#+NAME: map
-#+BEGIN_SRC yaml
-- a0a0a0a0a0a0a0
-- a0a0a0a0a0a0a0
-- a0a0a0a0a0a0a0
-- a0a0a0n0a0a0a0a0
-- a0a0l0l1
-- a0a0a0a0p0
 #+END_SRC
 
 #+NAME: tileSets
@@ -125,7 +135,6 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 
 #+BEGIN_SRC css
 .map {
-  background-color: #3a302e;
   margin-top: 3em;
   width: 1024px;
   overflow: hidden;
@@ -145,71 +154,13 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   height: 32px;
 }
 #+END_SRC
-
-* Old CoffeeScript for sprites
-*changed to defX so it doesn't auto-load*
-
-#+BEGIN_SRC coffee :results defX
-  Lounge.data.getFile "tiles/tileset_cave_1.png", (contents)->
-    col = 0
-    row = 0
-    # convert image data to blob because of performance lag from ordinary data url
-    # thanks to Dan Bovey
-    # http://stackoverflow.com/questions/28744562/chrome-dev-tools-is-being-slow-because-im-using-dataimage-in-background-image
-    byteArrays = for offset in [0...contents.length] by 512
-      slice = contents.slice offset, offset + 512
-      new Uint8Array (slice.charCodeAt(i) for i in [0...512])
-    blob = new Blob byteArrays, type: 'image/png'
-    str = """
-      .tile-sprite {
-        background-image: url(#{URL.createObjectURL blob});
-        background-repeat: no-repeat;
-      }
-    """
-
-    for v, k in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP"
-      str += """
-        .tile-sprite[data-letter="#{v}"] {
-          background-position: -#{col * 64}px -#{row * 32}px !important;
-        }
-      """
-      col += 1
-      if col == 16
-        col = 0
-        row++
-    $('#tile-styles').remove()
-    $(document.head).append "<style id='tile-styles'>#{str}</style>"
-#+END_SRC
-
 * Leisure code
 ** Primitives for Leisure
 #+BEGIN_SRC coffee :results def
 {define, right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
 
-define 'updateTiles', (str)->
+define 'updateStyles', (id, str)->
   new Monad2 (env, cont)->
-    $('#tile-styles').remove()
-    $(document.head).append "<style id='tile-styles'>#{resolve str}</style>"
-#+END_SRC
-
-#+BEGIN_SRC leisure :results xdef
-do
-  url <- foreach getImage 'tiles/tileset_cave_1.png'
-  codes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP"
-  updateTiles (s['.tile-sprite {\n' '  background-image: url(' url ');\n' '  background-repeat: no-repeat;\n' '}\n']) + (strCat (map (\i . do
-    row = floor (i / 16)
-    col = i % 16
-    s[s['.tile-sprite[data-letter=' (strAt codes i) '] {\n']
-      s['  background-position: -' (col * 64) 'px -' (row * 32) 'px !important;\n']
-      '}\n'])
-      (range 0 (strLen codes))))
-#+END_SRC
-
-#+BEGIN_SRC leisure :results dynamic
-buildStyles data = strCat (map (\i . do s[(head i) ' ']) data)
-
-changeData
- data <- foreach getData 'tileSets'
- print (buildStyles data)
- 1
+    $("##{rz id}").remove()
+    $(document.head).append "<style id='#{rz id}'>#{resolve str}</style>"
 #+END_SRC
