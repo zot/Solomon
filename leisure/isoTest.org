@@ -8,7 +8,7 @@
  {{/each}}
 </div>
 #+END_HTML
-
+* Map def
 #+NAME: map
 #+BEGIN_SRC yaml
 - a0a0a0a0a0a0a0
@@ -16,7 +16,12 @@
 - a0a0a0a0a0a0a0
 - a0a0a0n0a0a0a0a0
 - a0a0l0l1
-- a0a0a0a0p0
+- a0a0m0a0p0
+- a0m0
+- a0l0
+- n3
+- a0l3
+- a0l3
 #+END_SRC
 * Map Tile Styles
 
@@ -33,11 +38,11 @@ buildStyles data = strCat (map (\i . do
     strCat (map (\k . do
       leftPos = offsetX + widthOfCurrent * k + (j % 4) * 4 * widthOfCurrent
       s[s['.tile-sprite[data-code="' c k '"] {\n']
-      s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
-      s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
-      s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
-      s['  width: ' widthOfCurrent 'px;\n']
-      s['}\n']])
+        s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
+        s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
+        s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
+        s['  width: ' widthOfCurrent 'px;\n']
+        s['}\n']])
       (range 0 4)))
     (range 0 (strLen codes))))
   data)
@@ -92,6 +97,9 @@ doMap i [1 2 3 4 5] (i + 1)
 #+BEGIN_SRC coffee :results def
 Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
   el.join '' for el in _.chunk(string, chunkSize)
+backwardsTiles = "l2l3m2m3"
+Handlebars.registerHelper 'tiles', (string)->
+  {name: el, } for el in _.chunk(string, 2)
 #+END_SRC
 
 #+NAME: tileSets
@@ -152,6 +160,9 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   display: inline-block;
   width: 64px;
   height: 32px;
+}
+.tile-sprite[data-code=zz] {
+  background: black;
 }
 #+END_SRC
 * Leisure code
