@@ -1,15 +1,15 @@
 * Map
-#+BEGIN_HTML :var map
+#+BEGIN_HTML :var map=formattedMap
 <div class="map">
  {{#each map}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each (stringChunk this 2)}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+     {{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
    </div>
  {{/each}}
 </div>
 #+END_HTML
 * Map def
-#+NAME: map
+#+NAME: mapData
 #+BEGIN_SRC yaml
 - a0a0a0a0a0a0a0
 - a0a0a0a0a0a0a0
@@ -23,8 +23,24 @@
 - a0l3
 - a0l3
 #+END_SRC
+#+NAME: formattedMap
+This takes mapData and formats is for easier rendering in the map view
+#+BEGIN_SRC coffee :var mapData :observe :results yaml :flowLevel 1
+_.map mapData, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
+#+END_SRC
+#+RESULTS:
+: - [a0, a0, a0, a0, a0, a0, a0]
+: - [a0, a0, a0, a0, a0, a0, a0]
+: - [a0, a0, a0, a0, a0, a0, a0]
+: - [a0, a0, a0, n0, a0, a0, a0, a0]
+: - [a0, a0, l0, l1]
+: - [a0, a0, m0, a0, p0]
+: - [a0, m0]
+: - [a0, l0]
+: - [n3]
+: - [a0, l3]
+: - [a0, l3]
 * Map Tile Styles
-
 #+BEGIN_SRC leisure :results def
 buildStyles data = strCat (map (\i . do
   t = tail i
