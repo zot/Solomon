@@ -13,46 +13,85 @@ if !window.Solomon
 * Map
 #+BEGIN_HTML :var mapData
 <div class="map">
- {{#each mapData}}
-   <div class="row {{#if_even @index}} even{{/if_even}}">
-     {{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
-   </div>
- {{/each}}
+  {{#each mapData}}
+    <div class='mapLayer{{#unless @first}} floatingLayer{{/unless}}'>
+      {{#each this}}
+        <div class="row {{#if_even @index}} even{{/if_even}}">
+          {{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+        </div>
+      {{/each}}
+    </div>
+  {{/each}}
 </div>
 #+END_HTML
 * Map def
 #+NAME: mapData
-#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 1
-- I0I0I0I0I0I0I0
-- I0I0I0I0I0I0I0
-- I0I0a0a0a0a0a0
-- I0I0a0n0a0a0a0
-- I0I0l0l1
-- I0I0m0a0p0
-- I0m0
-- I0l0
-- n3
-- a0l3
-- a0l3
+#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 2
+- - I0
+  - I0
+  - a0a0a0
+  - a0a0a0a0
+  - a0a0a0a0a0a0a0
+  - a0a0a0a0a0a0a0
+  - a0a0a0a0a0a0a0
+  - a0a0a0a0a0a0a0
+  - I0a0a0a0a0a0a0a0
+  - I0I0a0a0a0a0a0a0
+  - I0a0a0a0a0a0a0a0
+  - I0I0a0a0a0a0a0a0a0
+  - I0
+  - I0
+  - I0
+  - I0
+- - I0
+  - I0
+  - I0I0I0I0I0I0I0
+  - I0I0I0I0I0I0I0
+  - I0I0I0I0I0I0I0
+  - I0I0I0n0I0I0I0
+  - I0I0l0l1
+  - I0I0m0a0p0
+  - I0m0
+  - I0l0
+  - n3
+  - I0l3
+  - I0l3
 #+END_SRC
 #+RESULTS:
-: - [I0, I0, I0, I0, I0, I0, I0]
-: - [I0, I0, I0, I0, I0, I0, I0]
-: - [I0, I0, a0, a0, a0, a0, a0]
-: - [I0, I0, a0, n0, a0, a0, a0]
-: - [I0, I0, l0, l1]
-: - [a0, a0, m0, a0, p0]
-: - [I0, m0]
-: - [I0, l0]
-: - [n3]
-: - [a0, l3]
-: - [a0, l3]
+: - - [I0]
+:   - [I0]
+:   - [a0, a0, a0]
+:   - [a0, a0, a0, a0]
+:   - [a0, a0, a0, a0, a0, a0, a0]
+:   - [a0, a0, a0, a0, a0, a0, a0]
+:   - [a0, a0, a0, a0, a0, a0, a0]
+:   - [a0, a0, a0, a0, a0, a0, a0]
+:   - [I0, a0, a0, a0, a0, a0, a0, a0]
+:   - [I0, I0, a0, a0, a0, a0, a0, a0]
+:   - [I0, a0, a0, a0, a0, a0, a0, a0]
+:   - [I0, I0, a0, a0, a0, a0, a0, a0, a0]
+:   - [I0]
+:   - [I0]
+:   - [I0]
+:   - [I0]
+: - - [I0]
+:   - [I0]
+:   - [I0, I0, I0, I0, I0, I0, I0]
+:   - [I0, I0, I0, I0, I0, I0, I0]
+:   - [I0, I0, I0, I0, I0, I0, I0]
+:   - [I0, I0, I0, n0, I0, I0, I0]
+:   - [I0, I0, l0, l1]
+:   - [I0, I0, m0, a0, p0]
+:   - [I0, m0]
+:   - [I0, l0]
+:   - [n3]
+:   - [I0, l3]
+:   - [I0, l3]
 
 #+NAME: mapFormatter
 This takes mapData and formats is for easier rendering in the map view
 #+BEGIN_SRC coffee :var mapData
-debugger
-_.map mapData, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
+_.map mapData, (level)-> _.map level, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
 #+END_SRC
 * Map Tile Styles
 #+BEGIN_SRC leisure :results def
@@ -83,7 +122,7 @@ defineL 'setTileTypes', (types)-> new Monad2 'setTileTypes', (env, cont)->
   Solomon.tileTypes = resolve
 #+END_SRC
 
-#+BEGIN_SRC leisure :results def
+#+BEGIN_SRC leisure :results defX
 changeData
   bgndUrl <- foreach getImage 'tiles/backgroundFloorTile.png'
   updateStyles 'map-styles' s['.map {\n'
@@ -190,9 +229,15 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   margin-top: 3em;
   width: 1024px;
   overflow: hidden;
-  padding-top: 32px;
   padding-bottom: 16px;
   white-space: nowrap;
+  position: relative;
+  background: black;
+}
+.floatingLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .row {
   height: 16px;
