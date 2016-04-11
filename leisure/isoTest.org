@@ -1,7 +1,19 @@
+* Settings
+:properties:
+:hidden: true
+:end:
+#+BEGIN_SRC coffee :results def
+{Solomon} = window
+if !window.Solomon
+  @Solomon = {}
+  {@Handlebars} = Leisure
+  {define: @defineL, @Monad2} = Leisure.Runtime
+  @rz = resolve
+#+END_SRC
 * Map
-#+BEGIN_HTML :var map=formattedMap
+#+BEGIN_HTML :var mapData
 <div class="map">
- {{#each map}}
+ {{#each mapData}}
    <div class="row {{#if_even @index}} even{{/if_even}}">
      {{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
    </div>
@@ -10,7 +22,7 @@
 #+END_HTML
 * Map def
 #+NAME: mapData
-#+BEGIN_SRC yaml
+#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 1
 - a0a0a0a0a0a0a0
 - a0a0a0a0a0a0a0
 - a0a0a0a0a0a0a0
@@ -22,11 +34,6 @@
 - n3
 - a0l3
 - a0l3
-#+END_SRC
-#+NAME: formattedMap
-This takes mapData and formats is for easier rendering in the map view
-#+BEGIN_SRC coffee :var mapData :observe :results yaml :flowLevel 1
-_.map mapData, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
 #+END_SRC
 #+RESULTS:
 : - [a0, a0, a0, a0, a0, a0, a0]
@@ -40,6 +47,13 @@ _.map mapData, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
 : - [n3]
 : - [a0, l3]
 : - [a0, l3]
+
+#+NAME: mapFormatter
+This takes mapData and formats is for easier rendering in the map view
+#+BEGIN_SRC coffee :var mapData
+debugger
+_.map mapData, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
+#+END_SRC
 * Map Tile Styles
 #+BEGIN_SRC leisure :results def
 buildStyles data = strCat (map (\i . do
@@ -64,12 +78,18 @@ buildStyles data = strCat (map (\i . do
   data)
 #+END_SRC
 
+#+BEGIN_SRC coffee
+defineL 'setTileTypes', (types)-> new Monad2 'setTileTypes', (env, cont)->
+  Solomon.tileTypes = resolve
+#+END_SRC
+
 #+BEGIN_SRC leisure :results def
-  changeData
-    bgndUrl <- foreach getImage 'tiles/backgroundFloorTile.png'
-    updateStyles 'map-styles' s['.map {\n'
-      s['  background: url(' bgndUrl ');\n']
-      '}\n']
+changeData
+  bgndUrl <- foreach getImage 'tiles/backgroundFloorTile.png'
+  updateStyles 'map-styles' s['.map {\n'
+    s['  background: url(' bgndUrl ');\n']
+    '}\n']
+  updateTileTypes
 #+END_SRC
 
 #+BEGIN_SRC leisure :results def
@@ -116,6 +136,8 @@ Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
 backwardsTiles = "l2l3m2m3"
 Handlebars.registerHelper 'tiles', (string)->
   {name: el, } for el in _.chunk(string, 2)
+Handlebars.registerHelper 'fixupTile', (string)->
+
 #+END_SRC
 
 #+NAME: tileSets
@@ -176,6 +198,7 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   display: inline-block;
   width: 64px;
   height: 32px;
+  position: relative;
 }
 .tile-sprite[data-code=zz] {
   background: black;
@@ -184,9 +207,9 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 * Leisure code
 ** Primitives for Leisure
 #+BEGIN_SRC coffee :results def
-{define, right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
+{right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
 
-define 'updateStyles', (id, str)->
+defineL 'updateStyles', (id, str)->
   new Monad2 (env, cont)->
     $("##{rz id}").remove()
     $(document.head).append "<style id='#{rz id}'>#{resolve str}</style>"
