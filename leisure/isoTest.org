@@ -27,66 +27,114 @@ if !window.Solomon
 * Map def
 #+NAME: mapData
 #+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 2
-- - I0
-  - I0
-  - a0a0a0
-  - a0a0a0a0
-  - a0a0a0a0a0a0a0
-  - a0a0a0a0a0a0a0
-  - a0a0a0a0a0a0a0
-  - a0a0a0a0a0a0a0
-  - I0a0a0a0a0a0a0a0
-  - I0I0a0a0a0a0a0a0
-  - I0a0a0a0a0a0a0a0
-  - I0I0a0a0a0a0a0a0a0
-  - I0
-  - I0
-  - I0
-  - I0
-- - I0
-  - I0
-  - I0I0I0I0I0I0I0
-  - I0I0I0I0I0I0I0
-  - I0I0I0I0I0I0I0
-  - I0I0I0n0I0I0I0
-  - I0I0l0l1
-  - I0I0m0a0p0
-  - I0m0
-  - I0l0
-  - n3
-  - I0l3
-  - I0l3
+- - X0
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0
+- - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0X0X0X0X0X0X0n0
+  - X0X0X0X0X0X0l0l1
+  - X0X0X0X0X0X0l0X0l1
+  - X0X0X0X0X0l0X0X0l1
+  - X0X0X0X0X0l0X0X0X0l1
+  - X0X0X0X0l0X0X0X0X0n1X0n0
+  - X0X0X0X0l0X0X0X0X0l2X0m0m1
+  - X0X0X0n3X0X0X0X0l2X0m0X0m1
+  - X0X0X0X0l3X0X0X0p1X0m0X0X0m1
+  - X0X0X0X0l3X0X0X0l1m0X0X0X0m1
+  - X0X0X0n0n3X0X0X0X0p0X0X0X0X0n1
+  - X0X0l0l1m0X0X0X0X0X0X0X0X0l2
+  - X0X0m0X0p0X0X0X0X0X0X0X0X0l2
+  - X0m0X0X0X0X0X0X0X0p2X0X0l2
+  - X0l0X0X0X0X0X0X0X0l2l3X0l2
+  - n3X0X0X0X0X0X0X0p1X0l3l2
+  - X0X0X0X0X0X0X0X0X0m1X0n2
+  - n3X0X0X0X0X0X0X0X0m1
+  - X0l3X0X0X0X0X0X0X0X0m1
+  - X0l3X0X0X0X0X0X0X0X0m1
 #+END_SRC
 #+RESULTS:
-: - - [I0]
-:   - [I0]
-:   - [a0, a0, a0]
-:   - [a0, a0, a0, a0]
-:   - [a0, a0, a0, a0, a0, a0, a0]
-:   - [a0, a0, a0, a0, a0, a0, a0]
-:   - [a0, a0, a0, a0, a0, a0, a0]
-:   - [a0, a0, a0, a0, a0, a0, a0]
-:   - [I0, a0, a0, a0, a0, a0, a0, a0]
-:   - [I0, I0, a0, a0, a0, a0, a0, a0]
-:   - [I0, a0, a0, a0, a0, a0, a0, a0]
-:   - [I0, I0, a0, a0, a0, a0, a0, a0, a0]
-:   - [I0]
-:   - [I0]
-:   - [I0]
-:   - [I0]
-: - - [I0]
-:   - [I0]
-:   - [I0, I0, I0, I0, I0, I0, I0]
-:   - [I0, I0, I0, I0, I0, I0, I0]
-:   - [I0, I0, I0, I0, I0, I0, I0]
-:   - [I0, I0, I0, n0, I0, I0, I0]
-:   - [I0, I0, l0, l1]
-:   - [I0, I0, m0, a0, p0]
-:   - [I0, m0]
-:   - [I0, l0]
-:   - [n3]
-:   - [I0, l3]
-:   - [I0, l3]
+: - - [X0]
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+: - - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0, X0, X0, X0, X0, X0, X0, n0]
+:   - [X0, X0, X0, X0, X0, X0, l0, l1]
+:   - [X0, X0, X0, X0, X0, X0, l0, X0, l1]
+:   - [X0, X0, X0, X0, X0, l0, X0, X0, l1]
+:   - [X0, X0, X0, X0, X0, l0, X0, X0, X0, l1]
+:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, n1, X0, n0]
+:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, l2, X0, m0, m1]
+:   - [X0, X0, X0, n3, X0, X0, X0, X0, l2, X0, m0, X0, m1]
+:   - [X0, X0, X0, X0, l3, X0, X0, X0, p1, X0, m0, X0, X0, m1]
+:   - [X0, X0, X0, X0, l3, X0, X0, X0, l1, m0, X0, X0, X0, m1]
+:   - [X0, X0, X0, n0, n3, X0, X0, X0, X0, p0, X0, X0, X0, X0, n1]
+:   - [X0, X0, l0, l1, m0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
+:   - [X0, X0, m0, X0, p0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
+:   - [X0, m0, X0, X0, X0, X0, X0, X0, X0, p2, X0, X0, l2]
+:   - [X0, l0, X0, X0, X0, X0, X0, X0, X0, l2, l3, X0, l2]
+:   - [n3, X0, X0, X0, X0, X0, X0, X0, p1, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, m1, X0, n2]
+:   - [n3, X0, X0, X0, X0, X0, X0, X0, X0, m1]
+:   - [X0, l3, X0, X0, X0, X0, X0, X0, X0, X0, m1]
+:   - [X0, l3, X0, X0, X0, X0, X0, X0, X0, X0, m1]
 
 #+NAME: mapFormatter
 This takes mapData and formats is for easier rendering in the map view
@@ -212,7 +260,7 @@ water:
   width: 64
   height: 64
 black:
-  codes: I
+  codes: X
   offsetX: 768
   offsetY: 906
   width: 64
