@@ -23,27 +23,27 @@ if !window.Solomon
 * Map def
 #+NAME: mapData
 #+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 1
-- a0a0a0a0a0a0a0
-- a0a0a0a0a0a0a0
-- a0a0a0a0a0a0a0
-- a0a0a0n0a0a0a0a0
-- a0a0l0l1
-- a0a0m0a0p0
-- a0m0
-- a0l0
+- I0I0I0I0I0I0I0
+- I0I0I0I0I0I0I0
+- I0I0a0a0a0a0a0
+- I0I0a0n0a0a0a0
+- I0I0l0l1
+- I0I0m0a0p0
+- I0m0
+- I0l0
 - n3
 - a0l3
 - a0l3
 #+END_SRC
 #+RESULTS:
-: - [a0, a0, a0, a0, a0, a0, a0]
-: - [a0, a0, a0, a0, a0, a0, a0]
-: - [a0, a0, a0, a0, a0, a0, a0]
-: - [a0, a0, a0, n0, a0, a0, a0, a0]
-: - [a0, a0, l0, l1]
+: - [I0, I0, I0, I0, I0, I0, I0]
+: - [I0, I0, I0, I0, I0, I0, I0]
+: - [I0, I0, a0, a0, a0, a0, a0]
+: - [I0, I0, a0, n0, a0, a0, a0]
+: - [I0, I0, l0, l1]
 : - [a0, a0, m0, a0, p0]
-: - [a0, m0]
-: - [a0, l0]
+: - [I0, m0]
+: - [I0, l0]
 : - [n3]
 : - [a0, l3]
 : - [a0, l3]
@@ -172,6 +172,12 @@ water:
   offsetY: 832
   width: 64
   height: 64
+black:
+  codes: I
+  offsetX: 768
+  offsetY: 906
+  width: 64
+  height: 32
 #+END_SRC
 
 #+BEGIN_SRC coffee :results def
