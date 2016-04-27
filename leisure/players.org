@@ -1,0 +1,340 @@
+* Settings
+:properties:
+:hidden: true
+:end:
+#+BEGIN_SRC coffee :results def
+{Solomon} = window
+if !window.Solomon
+  @Solomon = {}
+  {@Handlebars} = Leisure
+  {define: @defineL, @Monad2} = Leisure.Runtime
+  @rz = resolve
+#+END_SRC
+* Map
+#+BEGIN_HTML :var mapData
+<div class="map">
+  {{#each mapData}}
+    <div class='mapLayer{{#unless @first}} floatingLayer{{/unless}}'>
+      {{#each this}}
+        <div class="row {{#if_even @index}} even{{/if_even}}">
+          {{#each this}}<div class="tile-sprite iso" data-code="{{this}}" data-coords="{{@index}} {{@../index}}"></div>{{/each}}
+        </div>
+      {{/each}}
+    </div>
+  {{/each}}
+  {{#find players}}
+    <div class='{{icon}}-icon' style='top: {{top}}; left: {{left}}'></div>
+  {{/find}}
+</div>
+#+END_HTML
+* Player data
+#+BEGIN_SRC index
+name: players
+order: desc
+#+END_SRC
+
+#+BEGIN_SRC yaml :index players id
+id: 0
+icon: fred
+top: 192
+left: 416
+#+END_SRC
+
+#+BEGIN_SRC css
+.fred-icon {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: red;
+}
+#+END_SRC
+* Map def
+#+NAME: mapData
+#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 2
+- - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0X0X0X0X0X0X0a0
+  - X0X0X0X0X0X0a0a0
+  - X0X0X0X0X0X0a0a0a0
+  - X0X0X0X0X0a0a0a0a0
+  - X0X0X0X0X0a0a0a0a0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0n1
+  - X0X0a0a0a0a0a0a0a0a0a0a0a0l2
+  - X0X0a0a0a0a0X0a0a0a0a0a0a0l2
+  - X0a0a0a0a0X0X0a0a0a0a0a0l2
+  - X0a0a0a0a0a0X0X0a0a0a0a0l2
+  - X0a0a0a0a0X0X0a0a0a0l1n2
+  - X0X0a0a0a0l1X0l0a0a0a0l1
+  - X0a0a0a0a0n1l0a0a0a0a0l1
+  - X0l3a0a0a0l2n3a0a0a0a0a0n1
+  - X0l3a0a0l2X0l3a0a0a0a0l2
+  - X0X0l3a0l2X0X0l3a0a0a0l2
+  - X0X0l3l2X0X0X0l3a0a0l2
+  - X0X0X0n2X0X0X0X0l3a0l2
+  - X0X0X0X0X0X0X0X0l3l2
+  - X0X0X0X0X0X0X0X0X0n2
+- - X0
+  - X0
+  - X0
+  - X0
+  - X0
+  - X0X0X0X0X0X0X0n0
+  - X0X0X0X0X0X0l0l1
+  - X0X0X0X0X0X0l0TTl1
+  - X0X0X0X0X0l0TTTTl1
+  - X0X0X0X0X0l0TTTTTTl1
+  - X0X0X0X0l0TTTTTTTTn1TTn0
+  - X0X0X0X0l0TTTTTTTTl2TTm0m1
+  - X0X0X0n3TTTTTTTTl2TTm0TTm1
+  - X0X0X0l3l3TTTTTTp1TTm0TTTTm1
+  - X0X0X0X0l3TTTTTTl1m0TTTTTTm1
+  - X0X0X0n0n3TTTTTTTTp0TTTTTTTTn1
+  - X0X0l0l1m0TTTTTTTTTTTTTTTTl2
+  - X0X0m0TTp0TTp2TTTTTTp2TTTTl2
+  - X0m0TTTTTTl2l3TTTTp1l3TTl2
+  - X0l0TTTTTTl2TTl3TTTTl1l3l2
+  - n3TTTTTTTTn1TTp3TTTTl1n2
+  - X0l0TTTTTTl1TTl0TTTTTTl1
+  - n3TTTTTTTTn1l0TTTTTTTTl1
+  - X0l3TTTTTTl2n3TTTTTTTTTTn1
+  - X0l3TTTTl2TTl3TTTTTTTTl2
+  - X0X0l3TTl2TTTTl3TTTTTTl2
+  - X0X0l3l2TTTTTTl3TTTTl2
+  - X0X0X0n2TTTTTTTTl3TTl2
+  - X0X0X0X0X0X0X0X0l3l2
+  - X0X0X0X0X0X0X0X0X0n2
+#+END_SRC
+#+RESULTS:
+: - - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0, X0, X0, X0, X0, X0, X0, a0]
+:   - [X0, X0, X0, X0, X0, X0, a0, a0]
+:   - [X0, X0, X0, X0, X0, X0, a0, a0, a0]
+:   - [X0, X0, X0, X0, X0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, X0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, n1]
+:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, l2]
+:   - [X0, X0, a0, a0, a0, a0, X0, a0, a0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, X0, X0, a0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, a0, X0, X0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, X0, X0, a0, a0, a0, l1, n2]
+:   - [X0, X0, a0, a0, a0, l1, X0, l0, a0, a0, a0, l1]
+:   - [X0, a0, a0, a0, a0, n1, l0, a0, a0, a0, a0, l1]
+:   - [X0, l3, a0, a0, a0, l2, n3, a0, a0, a0, a0, a0, n1]
+:   - [X0, l3, a0, a0, l2, X0, l3, a0, a0, a0, a0, l2]
+:   - [X0, X0, l3, a0, l2, X0, X0, l3, a0, a0, a0, l2]
+:   - [X0, X0, l3, l2, X0, X0, X0, l3, a0, a0, l2]
+:   - [X0, X0, X0, n2, X0, X0, X0, X0, l3, a0, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, n2]
+: - - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0]
+:   - [X0, X0, X0, X0, X0, X0, X0, n0]
+:   - [X0, X0, X0, X0, X0, X0, l0, l1]
+:   - [X0, X0, X0, X0, X0, X0, l0, TT, l1]
+:   - [X0, X0, X0, X0, X0, l0, TT, TT, l1]
+:   - [X0, X0, X0, X0, X0, l0, TT, TT, TT, l1]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, n1, TT, n0]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, l2, TT, m0, m1]
+:   - [X0, X0, X0, n3, TT, TT, TT, TT, l2, TT, m0, TT, m1]
+:   - [X0, X0, X0, l3, l3, TT, TT, TT, p1, TT, m0, TT, TT, m1]
+:   - [X0, X0, X0, X0, l3, TT, TT, TT, l1, m0, TT, TT, TT, m1]
+:   - [X0, X0, X0, n0, n3, TT, TT, TT, TT, p0, TT, TT, TT, TT, n1]
+:   - [X0, X0, l0, l1, m0, TT, TT, TT, TT, TT, TT, TT, TT, l2]
+:   - [X0, X0, m0, TT, p0, TT, p2, TT, TT, TT, p2, TT, TT, l2]
+:   - [X0, m0, TT, TT, TT, l2, l3, TT, TT, p1, l3, TT, l2]
+:   - [X0, l0, TT, TT, TT, l2, TT, l3, TT, TT, l1, l3, l2]
+:   - [n3, TT, TT, TT, TT, n1, TT, p3, TT, TT, l1, n2]
+:   - [X0, l0, TT, TT, TT, l1, TT, l0, TT, TT, TT, l1]
+:   - [n3, TT, TT, TT, TT, n1, l0, TT, TT, TT, TT, l1]
+:   - [X0, l3, TT, TT, TT, l2, n3, TT, TT, TT, TT, TT, n1]
+:   - [X0, l3, TT, TT, l2, TT, l3, TT, TT, TT, TT, l2]
+:   - [X0, X0, l3, TT, l2, TT, TT, l3, TT, TT, TT, l2]
+:   - [X0, X0, l3, l2, TT, TT, TT, l3, TT, TT, l2]
+:   - [X0, X0, X0, n2, TT, TT, TT, TT, l3, TT, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, n2]
+
+#+NAME: mapFormatter
+This takes mapData and formats is for easier rendering in the map view
+#+BEGIN_SRC coffee :var mapData
+_.map mapData, (level)-> _.map level, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
+#+END_SRC
+* Map Tile Styles
+#+BEGIN_SRC leisure :results def
+buildStyles data = strCat (do
+  i <- forFlat data
+  t = tail i
+  codes = ((assoc 'codes' t) id '')
+  offsetX = ((assoc 'offsetX' t) id 0)
+  topPos = ((assoc 'offsetY' t) id 0)
+  widthOfCurrent = ((assoc 'width' t) id 0)
+  j <- forFlat range 0 (strLen codes)
+  c = strAt codes j
+  not c == '_'
+  k <- forFlat range 0 4
+  leftPos = offsetX + widthOfCurrent * k + (j % 4) * 4 * widthOfCurrent
+  [s['.tile-sprite[data-code="' c k '"] {\n']
+    s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
+    s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
+    s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
+    s['  width: ' widthOfCurrent 'px;\n']
+    s['}\n']])
+#+END_SRC
+
+#+BEGIN_SRC coffee
+defineL 'setTileTypes', (types)-> new Monad2 'setTileTypes', (env, cont)->
+  Solomon.tileTypes = resolve
+#+END_SRC
+
+#+BEGIN_SRC leisure :results defX
+changeData
+  bgndUrl <- run getImage 'tiles/backgroundFloorTile.png'
+  updateStyles 'map-styles' s['.map {\n'
+    s['  background: url(' bgndUrl ');\n']
+    '}\n']
+  updateTileTypes
+#+END_SRC
+
+#+BEGIN_SRC leisure :results def
+changeData
+  url <- run getImage 'tiles/tileset_cave_1.png'
+  data <- run getData 'tileSets'
+  updateStyles 'tile-styles' s['.tile-sprite {\n'
+    s['  background-image: url(' url ');\n']
+    '  background-repeat: no-repeat;\n'
+    '  position: relative;\n'
+    '  vertical-align: top;\n'
+    '}\n'
+    (buildStyles data)]
+#+END_SRC
+
+#+TITLE: Test Isometric Tiles
+* tests
+#+BEGIN_SRC leisure :results dynamic
+map id (toList (range 0 4))
+#+END_SRC
+* Tiles
+#+BEGIN_SRC coffee :results def
+Handlebars.registerHelper 'stringChunk', (string, chunkSize)->
+  el.join '' for el in _.chunk(string, chunkSize)
+backwardsTiles = "l2l3m2m3"
+Handlebars.registerHelper 'tiles', (string)->
+  {name: el, } for el in _.chunk(string, 2)
+Handlebars.registerHelper 'fixupTile', (string)->
+
+#+END_SRC
+
+#+NAME: tileSets
+#+BEGIN_SRC yaml
+floor:
+  codes: abcdefghijk
+  offsetX: 0
+  offsetY: 0
+  width: 64
+  height: 32
+walls:
+  codes: lmnopq__rstuv
+  offsetX: 0
+  offsetY: 125
+  width: 64
+  height: 128
+objects:
+  codes: wx
+  offsetX: 0
+  offsetY: 640
+  width: 64
+  height: 64
+rocks:
+  codes: yzA
+  offsetX: 0
+  offsetY: 704
+  width: 64
+  height: 128
+water:
+  codes: BCDEFGH
+  offsetX: 0
+  offsetY: 832
+  width: 64
+  height: 64
+black:
+  codes: X
+  offsetX: 768
+  offsetY: 906
+  width: 64
+  height: 32
+#+END_SRC
+
+#+BEGIN_SRC coffee :results def
+Handlebars.registerHelper 'if_even', (conditional, options)->
+  if (conditional % 2) == 0 then options.fn(this) else options.inverse(this)
+#+END_SRC
+
+#+BEGIN_SRC css
+.map {
+  margin-top: 3em;
+  width: 1024px;
+  overflow: hidden;
+  padding-bottom: 16px;
+  white-space: nowrap;
+  position: relative;
+  background: black;
+}
+.tile-sprite[data-code="T0"],
+.tile-sprite[data-code="TT"]
+ {
+    background-image: none;
+    height: 32px;
+    top: 0px;
+    width: 64px;
+}
+.floatingLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.row {
+  height: 16px;
+}
+.even {
+  padding-left: 32px;
+}
+.iso {
+  display: inline-block;
+  width: 64px;
+  height: 32px;
+  position: relative;
+}
+.tile-sprite[data-code=zz] {
+  background: black;
+}
+#+END_SRC
+* Leisure code
+** Primitives for Leisure
+#+BEGIN_SRC coffee :results def
+{right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
+
+defineL 'updateStyles', (id, str)->
+  new Monad2 (env, cont)->
+    $("##{rz id}").remove()
+    $(document.head).append "<style id='#{rz id}'>#{resolve str}</style>"
+#+END_SRC

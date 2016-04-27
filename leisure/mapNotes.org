@@ -1,0 +1,85 @@
+* Notes
+#+BEGIN_SRC text
+Square map editor
+
+5 x 5
+5 x 6
+
+x--x--x--x--x
+x--1--2--3--x
+x--c--x--4--x
+x--b--x--5--x
+x--a--x--6--x
+x--9--8--7--x
+#+END_SRC
+ *==>*
+#+BEGIN_SRC text
+5   x 10
+5.5 x 11
+
+O-----O-----x-----O-----O-----O
+---O-----x-----x-----O-----O---
+O-----x-----3-----x-----O-----O
+---x-----2-----4-----x-----O---
+x-----1-----x-----5-----x-----O
+---x-----c-----x-----6-----x---
+O-----x-----b-----x-----7-----x
+---O-----x-----a-----8-----x---
+O-----O-----x-----9-----x-----O
+---O-----O-----x-----x-----O---
+O-----O-----O-----x-----O-----O
+#+END_SRC
+
+#+BEGIN_SRC text
+height = oHeight + oWidth
+width = height / 2
+
+x = oX / 2
+y = oY + oWidth / 2
+#+END_SRC
+
+#+BEGIN_SRC text
+maxWidth = 0
+maxHeight = 0
+for layer in mapData
+  maxHeight = Math.max maxHeight, layer.length
+  for row in layer
+    maxWidth = Math.max maxWidth, row.length
+oLayers = for layer in mapData
+  newLayer = ((new Array(maxWidth) for row in [0...maxHeight])
+  for row in layer
+    maxWidth = Math.max maxWidth, row.length
+#+END_SRC
+* Work
+#+BEGIN_SRC leisure
+testLayer = ['xxxxx' 'x123x' 'xcx4x' 'xbx5x' 'xax6x' 'x987x' 'xxxxx']
+mapData = [testLayer]
+maxWidth = foldr (\layer tot . foldr (\row tot . max tot (strLen row)) tot layer) 0 mapData
+maxHeight = foldr (\layer tot . max tot (length layer)) 0 mapData
+empties n = n >= 1
+  concat['O' (empties n - 1)]
+  ''
+topRows = map (\n . empties n / 2) (repeat maxWidth)
+botRows = map (\n . empties (n + 1) / 2) (repeat maxHeight - 1)
+#+END_SRC
+
+#+BEGIN_SRC leisure :results dynamic
+testLayer
+mapData
+maxWidth
+maxHeight
+concat['a' 'b']
+empties 3.5
+topRows
+botRows
+#+END_SRC
+#+RESULTS:
+: ["xxxxx" "x123x" "xcx4x" "xbx5x" "xax6x" "x987x" "xxxxx"]
+: [["xxxxx" "x123x" "xcx4x" "xbx5x" "xax6x" "x987x" "xxxxx"]]
+: 5
+: 7
+: "ab"
+: "OOO"
+: ["" "" "O" "O" "OO"]
+: ["" "O" "O" "OO" "OO" "OOO"]
+* END
