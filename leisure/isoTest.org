@@ -32,20 +32,26 @@ if !window.Solomon
   - X0
   - X0
   - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
-  - X0
+  - X0X0X0X0X0X0X0a0
+  - X0X0X0X0X0X0a0a0
+  - X0X0X0X0X0X0a0a0a0
+  - X0X0X0X0X0a0a0a0a0
+  - X0X0X0X0X0a0a0a0a0a0
+  - X0X0X0X0a0a0a0a0a0a0X0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0a0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0a0
+  - X0X0a0a0a0a0a0a0a0a0a0a0a0a0
+  - X0X0a0a0a0a0a0a0a0a0a0a0a0a0
+  - X0a0a0a0a0a0a0a0a0a0a0a0a0
+  - X0a0a0a0a0a0a0a0a0a0a0a0a0
+  - a0
+  - X0a0
+  - a0
+  - X0a0
+  - X0a0
 - - X0
   - X0
   - X0
@@ -53,19 +59,19 @@ if !window.Solomon
   - X0
   - X0X0X0X0X0X0X0n0
   - X0X0X0X0X0X0l0l1
-  - X0X0X0X0X0X0l0X0l1
-  - X0X0X0X0X0l0X0X0l1
-  - X0X0X0X0X0l0X0X0X0l1
-  - X0X0X0X0l0X0X0X0X0n1X0n0
-  - X0X0X0X0l0X0X0X0X0l2n1m0m1
-  - X0X0X0n3X0X0X0X0l2X0m0X0m1
-  - X0X0X0l3l3X0X0X0p1X0m0X0X0m1
-  - X0X0X0X0l3X0X0X0l1m0X0X0X0m1
-  - X0X0X0n0n3X0X0X0X0p0X0X0X0X0n1
-  - X0X0l0l1m0X0X0X0X0X0X0X0X0l2
-  - X0X0m0X0p0X0X0X0X0X0X0X0X0l2
-  - X0m0X0X0X0X0X0X0X0X0X0X0l2
-  - X0l0X0X0X0X0X0X0X0X0X0X0l2
+  - X0X0X0X0X0X0l0TTl1
+  - X0X0X0X0X0l0TTTTl1
+  - X0X0X0X0X0l0TTTTTTl1
+  - X0X0X0X0l0TTTTTTTTn1X0n0
+  - X0X0X0X0l0TTTTTTTTl2n1m0m1
+  - X0X0X0n3TTTTTTTTl2TTm0TTm1
+  - X0X0X0l3l3TTTTTTp1TTm0TTTTm1
+  - X0X0X0X0l3TTTTTTl1m0TTTTTTm1
+  - X0X0X0n0n3TTTTTTTTp0TTTTTTTTn1
+  - X0X0l0l1m0TTTTTTTTTTTTTTTTl2
+  - X0X0m0TTp0TTTTTTTTTTTTTTTTl2
+  - X0m0TTTTTTTTTTTTTTTTTTl2
+  - X0l0TTTTTTTTTTTTTTTTTTTTl2
   - n3
   - X0l0
   - n3
@@ -78,20 +84,26 @@ if !window.Solomon
 :   - [X0]
 :   - [X0]
 :   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
-:   - [X0]
+:   - [X0, X0, X0, X0, X0, X0, X0, a0]
+:   - [X0, X0, X0, X0, X0, X0, a0, a0]
+:   - [X0, X0, X0, X0, X0, X0, a0, a0, a0]
+:   - [X0, X0, X0, X0, X0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, X0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, X0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
+:   - [a0]
+:   - [X0, a0]
+:   - [a0]
+:   - [X0, a0]
+:   - [X0, a0]
 : - - [X0]
 :   - [X0]
 :   - [X0]
@@ -99,19 +111,19 @@ if !window.Solomon
 :   - [X0]
 :   - [X0, X0, X0, X0, X0, X0, X0, n0]
 :   - [X0, X0, X0, X0, X0, X0, l0, l1]
-:   - [X0, X0, X0, X0, X0, X0, l0, X0, l1]
-:   - [X0, X0, X0, X0, X0, l0, X0, X0, l1]
-:   - [X0, X0, X0, X0, X0, l0, X0, X0, X0, l1]
-:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, n1, X0, n0]
-:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, l2, n1, m0, m1]
-:   - [X0, X0, X0, n3, X0, X0, X0, X0, l2, X0, m0, X0, m1]
-:   - [X0, X0, X0, l3, l3, X0, X0, X0, p1, X0, m0, X0, X0, m1]
-:   - [X0, X0, X0, X0, l3, X0, X0, X0, l1, m0, X0, X0, X0, m1]
-:   - [X0, X0, X0, n0, n3, X0, X0, X0, X0, p0, X0, X0, X0, X0, n1]
-:   - [X0, X0, l0, l1, m0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, X0, m0, X0, p0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, m0, X0, X0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, l0, X0, X0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
+:   - [X0, X0, X0, X0, X0, X0, l0, TT, l1]
+:   - [X0, X0, X0, X0, X0, l0, TT, TT, l1]
+:   - [X0, X0, X0, X0, X0, l0, TT, TT, TT, l1]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, n1, X0, n0]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, l2, n1, m0, m1]
+:   - [X0, X0, X0, n3, TT, TT, TT, TT, l2, TT, m0, TT, m1]
+:   - [X0, X0, X0, l3, l3, TT, TT, TT, p1, TT, m0, TT, TT, m1]
+:   - [X0, X0, X0, X0, l3, TT, TT, TT, l1, m0, TT, TT, TT, m1]
+:   - [X0, X0, X0, n0, n3, TT, TT, TT, TT, p0, TT, TT, TT, TT, n1]
+:   - [X0, X0, l0, l1, m0, TT, TT, TT, TT, TT, TT, TT, TT, l2]
+:   - [X0, X0, m0, TT, p0, TT, TT, TT, TT, TT, TT, TT, TT, l2]
+:   - [X0, m0, TT, TT, TT, TT, TT, TT, TT, TT, TT, l2]
+:   - [X0, l0, TT, TT, TT, TT, TT, TT, TT, TT, TT, TT, l2]
 :   - [n3]
 :   - [X0, l0]
 :   - [n3]
@@ -242,6 +254,14 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
   white-space: nowrap;
   position: relative;
   background: black;
+}
+.tile-sprite[data-code="T0"],
+.tile-sprite[data-code="TT"]
+ {
+    background-image: none;
+    height: 32px;
+    top: 0px;
+    width: 64px;
 }
 .floatingLayer {
   position: absolute;
