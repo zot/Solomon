@@ -125,26 +125,24 @@ _.map mapData, (level)-> _.map level, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
 #+END_SRC
 * Map Tile Styles
 #+BEGIN_SRC leisure :results def
-buildStyles data = strCat (map (\i . do
+buildStyles data = strCat (do
+  i <- forFlat data
   t = tail i
   codes = ((assoc 'codes' t) id '')
   offsetX = ((assoc 'offsetX' t) id 0)
   topPos = ((assoc 'offsetY' t) id 0)
   widthOfCurrent = ((assoc 'width' t) id 0)
-  strCat (map (\j . do
-    c = strAt codes j
-    not c == '_'
-    strCat (map (\k . do
-      leftPos = offsetX + widthOfCurrent * k + (j % 4) * 4 * widthOfCurrent
-      s[s['.tile-sprite[data-code="' c k '"] {\n']
-        s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
-        s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
-        s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
-        s['  width: ' widthOfCurrent 'px;\n']
-        s['}\n']])
-      (range 0 4)))
-    (range 0 (strLen codes))))
-  data)
+  j <- forFlat range 0 (strLen codes)
+  c = strAt codes j
+  not c == '_'
+  k <- forFlat range 0 4
+  leftPos = offsetX + widthOfCurrent * k + (j % 4) * 4 * widthOfCurrent
+  [s['.tile-sprite[data-code="' c k '"] {\n']
+    s['  background-position: -' leftPos 'px -' topPos + (floor j / 4) * ((assoc 'height' t) id 0) 'px !important;\n']
+    s['  height: ' ((assoc 'height' t) id 0) 'px;\n']
+    s['  top: ' (32 - ((assoc 'height' t) id 0)) 'px;\n']
+    s['  width: ' widthOfCurrent 'px;\n']
+    s['}\n']])
 #+END_SRC
 
 #+BEGIN_SRC coffee
@@ -154,7 +152,7 @@ defineL 'setTileTypes', (types)-> new Monad2 'setTileTypes', (env, cont)->
 
 #+BEGIN_SRC leisure :results defX
 changeData
-  bgndUrl <- foreach getImage 'tiles/backgroundFloorTile.png'
+  bgndUrl <- run getImage 'tiles/backgroundFloorTile.png'
   updateStyles 'map-styles' s['.map {\n'
     s['  background: url(' bgndUrl ');\n']
     '}\n']
@@ -163,40 +161,21 @@ changeData
 
 #+BEGIN_SRC leisure :results def
 changeData
-  url <- foreach getImage 'tiles/tileset_cave_1.png'
-  data <- foreach getData 'tileSets'
+  url <- run getImage 'tiles/tileset_cave_1.png'
+  data <- run getData 'tileSets'
   updateStyles 'tile-styles' s['.tile-sprite {\n'
     s['  background-image: url(' url ');\n']
     '  background-repeat: no-repeat;\n'
     '  position: relative;\n'
     '  vertical-align: top;\n'
     '}\n'
-    buildStyles data]
+    (buildStyles data)]
 #+END_SRC
 
 #+TITLE: Test Isometric Tiles
 * tests
 #+BEGIN_SRC leisure :results dynamic
-handleListFuncMacro name numVars expr = do
-  vars = take numVars expr
-  r = drop numVars expr
-  list = head r
-  rest = tail r
-  print s['vars ' vars]
-  print s['list ' list]
-  print s['rest ' rest]
-  []
-  [name ['\\' | (append vars ['.' | (handleDo rest false id)])] list]
-
-defMacro 'doMap' \expr . handleListFuncMacro 'map' 1 expr
-
-simplify 'doMap i [1 2 3 4] (i + 1)'
-doMap i [1 2 3 4 5] (i + 1)
-#doMap i [1 2 3 4 5]
-#  print i
-#
-#3
-#map (\i . (+ i 1)) [1 2 3 4]
+map id (toList (range 0 4))
 #+END_SRC
 * Tiles
 #+BEGIN_SRC coffee :results def
