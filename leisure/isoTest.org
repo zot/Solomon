@@ -45,6 +45,17 @@ if !window.Solomon
   - X0
   - X0
   - X0
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
   - X0
 - - X0
   - X0
@@ -57,20 +68,25 @@ if !window.Solomon
   - X0X0X0X0X0l0X0X0l1
   - X0X0X0X0X0l0X0X0X0l1
   - X0X0X0X0l0X0X0X0X0n1X0n0
-  - X0X0X0X0l0X0X0X0X0l2n1m0m1
+  - X0X0X0X0l0X0X0X0X0l2X0m0m1
   - X0X0X0n3X0X0X0X0l2X0m0X0m1
   - X0X0X0l3l3X0X0X0p1X0m0X0X0m1
   - X0X0X0X0l3X0X0X0l1m0X0X0X0m1
   - X0X0X0n0n3X0X0X0X0p0X0X0X0X0n1
   - X0X0l0l1m0X0X0X0X0X0X0X0X0l2
-  - X0X0m0X0p0X0X0X0X0X0X0X0X0l2
-  - X0m0X0X0X0X0X0X0X0X0X0X0l2
-  - X0l0X0X0X0X0X0X0X0X0X0X0l2
-  - n3
-  - X0l0
-  - n3
-  - X0l3
-  - X0l3
+  - X0X0m0X0p0X0p2X0X0X0p2X0X0l2
+  - X0m0X0X0X0l2l3X0X0p1l3X0l2
+  - X0l0X0X0X0l2X0l3X0X0l1l3l2
+  - n3X0X0X0X0n1X0p3X0X0l1n2
+  - X0l0X0X0X0l1X0l0X0X0X0l1
+  - n3X0X0X0X0n1l0X0X0X0X0l1
+  - X0l3X0X0X0l2n3X0X0X0X0X0n1
+  - X0l3X0X0l2X0l3X0X0X0X0l2
+  - X0X0l3X0l2X0X0l3X0X0X0l2
+  - X0X0l3l2X0X0X0l3X0X0l2
+  - X0X0X0n2X0X0X0X0l3X0l2
+  - X0X0X0X0X0X0X0X0l3l2
+  - X0X0X0X0X0X0X0X0X0n2
 #+END_SRC
 #+RESULTS:
 : - - [X0]
@@ -91,6 +107,17 @@ if !window.Solomon
 :   - [X0]
 :   - [X0]
 :   - [X0]
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
+:   - []
 :   - [X0]
 : - - [X0]
 :   - [X0]
@@ -103,20 +130,25 @@ if !window.Solomon
 :   - [X0, X0, X0, X0, X0, l0, X0, X0, l1]
 :   - [X0, X0, X0, X0, X0, l0, X0, X0, X0, l1]
 :   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, n1, X0, n0]
-:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, l2, n1, m0, m1]
+:   - [X0, X0, X0, X0, l0, X0, X0, X0, X0, l2, X0, m0, m1]
 :   - [X0, X0, X0, n3, X0, X0, X0, X0, l2, X0, m0, X0, m1]
 :   - [X0, X0, X0, l3, l3, X0, X0, X0, p1, X0, m0, X0, X0, m1]
 :   - [X0, X0, X0, X0, l3, X0, X0, X0, l1, m0, X0, X0, X0, m1]
 :   - [X0, X0, X0, n0, n3, X0, X0, X0, X0, p0, X0, X0, X0, X0, n1]
 :   - [X0, X0, l0, l1, m0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, X0, m0, X0, p0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, m0, X0, X0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [X0, l0, X0, X0, X0, X0, X0, X0, X0, X0, X0, X0, l2]
-:   - [n3]
-:   - [X0, l0]
-:   - [n3]
-:   - [X0, l3]
-:   - [X0, l3]
+:   - [X0, X0, m0, X0, p0, X0, p2, X0, X0, X0, p2, X0, X0, l2]
+:   - [X0, m0, X0, X0, X0, l2, l3, X0, X0, p1, l3, X0, l2]
+:   - [X0, l0, X0, X0, X0, l2, X0, l3, X0, X0, l1, l3, l2]
+:   - [n3, X0, X0, X0, X0, n1, X0, p3, X0, X0, l1, n2]
+:   - [X0, l0, X0, X0, X0, l1, X0, l0, X0, X0, X0, l1]
+:   - [n3, X0, X0, X0, X0, n1, l0, X0, X0, X0, X0, l1]
+:   - [X0, l3, X0, X0, X0, l2, n3, X0, X0, X0, X0, X0, n1]
+:   - [X0, l3, X0, X0, l2, X0, l3, X0, X0, X0, X0, l2]
+:   - [X0, X0, l3, X0, l2, X0, X0, l3, X0, X0, X0, l2]
+:   - [X0, X0, l3, l2, X0, X0, X0, l3, X0, X0, l2]
+:   - [X0, X0, X0, n2, X0, X0, X0, X0, l3, X0, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, n2]
 
 #+NAME: mapFormatter
 This takes mapData and formats is for easier rendering in the map view
