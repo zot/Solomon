@@ -37,21 +37,26 @@ if !window.Solomon
   - X0X0X0X0X0X0a0a0a0
   - X0X0X0X0X0a0a0a0a0
   - X0X0X0X0X0a0a0a0a0a0
-  - X0X0X0X0a0a0a0a0a0a0X0a0
+  - X0X0X0X0a0a0a0a0a0a0a0a0
   - X0X0X0X0a0a0a0a0a0a0a0a0a0
   - X0X0X0a0a0a0a0a0a0a0a0a0a0
   - X0X0X0a0a0a0a0a0a0a0a0a0a0a0
   - X0X0X0X0a0a0a0a0a0a0a0a0a0a0
-  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0a0
-  - X0X0a0a0a0a0a0a0a0a0a0a0a0a0
-  - X0X0a0a0a0a0a0a0a0a0a0a0a0a0
-  - X0a0a0a0a0a0a0a0a0a0a0a0a0
-  - X0a0a0a0a0a0a0a0a0a0a0a0a0
-  - a0
-  - X0a0
-  - a0
-  - X0a0
-  - X0a0
+  - X0X0X0a0a0a0a0a0a0a0a0a0a0a0n1
+  - X0X0a0a0a0a0a0a0a0a0a0a0a0l2
+  - X0X0a0a0a0a0X0a0a0a0a0a0a0l2
+  - X0a0a0a0a0X0X0a0a0a0a0a0l2
+  - X0a0a0a0a0a0X0X0a0a0a0a0l2
+  - X0a0a0a0a0X0X0a0a0a0l1n2
+  - X0X0a0a0a0l1X0l0a0a0a0l1
+  - X0a0a0a0a0n1l0a0a0a0a0l1
+  - X0l3a0a0a0l2n3a0a0a0a0a0n1
+  - X0l3a0a0l2X0l3a0a0a0a0l2
+  - X0X0l3a0l2X0X0l3a0a0a0l2
+  - X0X0l3l2X0X0X0l3a0a0l2
+  - X0X0X0n2X0X0X0X0l3a0l2
+  - X0X0X0X0X0X0X0X0l3l2
+  - X0X0X0X0X0X0X0X0X0n2
 - - X0
   - X0
   - X0
@@ -62,21 +67,26 @@ if !window.Solomon
   - X0X0X0X0X0X0l0TTl1
   - X0X0X0X0X0l0TTTTl1
   - X0X0X0X0X0l0TTTTTTl1
-  - X0X0X0X0l0TTTTTTTTn1X0n0
-  - X0X0X0X0l0TTTTTTTTl2n1m0m1
+  - X0X0X0X0l0TTTTTTTTn1TTn0
+  - X0X0X0X0l0TTTTTTTTl2TTm0m1
   - X0X0X0n3TTTTTTTTl2TTm0TTm1
   - X0X0X0l3l3TTTTTTp1TTm0TTTTm1
   - X0X0X0X0l3TTTTTTl1m0TTTTTTm1
   - X0X0X0n0n3TTTTTTTTp0TTTTTTTTn1
   - X0X0l0l1m0TTTTTTTTTTTTTTTTl2
-  - X0X0m0TTp0TTTTTTTTTTTTTTTTl2
-  - X0m0TTTTTTTTTTTTTTTTTTl2
-  - X0l0TTTTTTTTTTTTTTTTTTTTl2
-  - n3
-  - X0l0
-  - n3
-  - X0l3
-  - X0l3
+  - X0X0m0TTp0TTp2TTTTTTp2TTTTl2
+  - X0m0TTTTTTl2l3TTTTp1l3TTl2
+  - X0l0TTTTTTl2TTl3TTTTl1l3l2
+  - n3TTTTTTTTn1TTp3TTTTl1n2
+  - X0l0TTTTTTl1TTl0TTTTTTl1
+  - n3TTTTTTTTn1l0TTTTTTTTl1
+  - X0l3TTTTTTl2n3TTTTTTTTTTn1
+  - X0l3TTTTl2TTl3TTTTTTTTl2
+  - X0X0l3TTl2TTTTl3TTTTTTl2
+  - X0X0l3l2TTTTTTl3TTTTl2
+  - X0X0X0n2TTTTTTTTl3TTl2
+  - X0X0X0X0X0X0X0X0l3l2
+  - X0X0X0X0X0X0X0X0X0n2
 #+END_SRC
 #+RESULTS:
 : - - [X0]
@@ -89,21 +99,26 @@ if !window.Solomon
 :   - [X0, X0, X0, X0, X0, X0, a0, a0, a0]
 :   - [X0, X0, X0, X0, X0, a0, a0, a0, a0]
 :   - [X0, X0, X0, X0, X0, a0, a0, a0, a0, a0]
-:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, X0, a0]
+:   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0]
 :   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
 :   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
 :   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
 :   - [X0, X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0]
-:   - [a0]
-:   - [X0, a0]
-:   - [a0]
-:   - [X0, a0]
-:   - [X0, a0]
+:   - [X0, X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, n1]
+:   - [X0, X0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, a0, l2]
+:   - [X0, X0, a0, a0, a0, a0, X0, a0, a0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, X0, X0, a0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, a0, X0, X0, a0, a0, a0, a0, l2]
+:   - [X0, a0, a0, a0, a0, X0, X0, a0, a0, a0, l1, n2]
+:   - [X0, X0, a0, a0, a0, l1, X0, l0, a0, a0, a0, l1]
+:   - [X0, a0, a0, a0, a0, n1, l0, a0, a0, a0, a0, l1]
+:   - [X0, l3, a0, a0, a0, l2, n3, a0, a0, a0, a0, a0, n1]
+:   - [X0, l3, a0, a0, l2, X0, l3, a0, a0, a0, a0, l2]
+:   - [X0, X0, l3, a0, l2, X0, X0, l3, a0, a0, a0, l2]
+:   - [X0, X0, l3, l2, X0, X0, X0, l3, a0, a0, l2]
+:   - [X0, X0, X0, n2, X0, X0, X0, X0, l3, a0, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, n2]
 : - - [X0]
 :   - [X0]
 :   - [X0]
@@ -114,21 +129,26 @@ if !window.Solomon
 :   - [X0, X0, X0, X0, X0, X0, l0, TT, l1]
 :   - [X0, X0, X0, X0, X0, l0, TT, TT, l1]
 :   - [X0, X0, X0, X0, X0, l0, TT, TT, TT, l1]
-:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, n1, X0, n0]
-:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, l2, n1, m0, m1]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, n1, TT, n0]
+:   - [X0, X0, X0, X0, l0, TT, TT, TT, TT, l2, TT, m0, m1]
 :   - [X0, X0, X0, n3, TT, TT, TT, TT, l2, TT, m0, TT, m1]
 :   - [X0, X0, X0, l3, l3, TT, TT, TT, p1, TT, m0, TT, TT, m1]
 :   - [X0, X0, X0, X0, l3, TT, TT, TT, l1, m0, TT, TT, TT, m1]
 :   - [X0, X0, X0, n0, n3, TT, TT, TT, TT, p0, TT, TT, TT, TT, n1]
 :   - [X0, X0, l0, l1, m0, TT, TT, TT, TT, TT, TT, TT, TT, l2]
-:   - [X0, X0, m0, TT, p0, TT, TT, TT, TT, TT, TT, TT, TT, l2]
-:   - [X0, m0, TT, TT, TT, TT, TT, TT, TT, TT, TT, l2]
-:   - [X0, l0, TT, TT, TT, TT, TT, TT, TT, TT, TT, TT, l2]
-:   - [n3]
-:   - [X0, l0]
-:   - [n3]
-:   - [X0, l3]
-:   - [X0, l3]
+:   - [X0, X0, m0, TT, p0, TT, p2, TT, TT, TT, p2, TT, TT, l2]
+:   - [X0, m0, TT, TT, TT, l2, l3, TT, TT, p1, l3, TT, l2]
+:   - [X0, l0, TT, TT, TT, l2, TT, l3, TT, TT, l1, l3, l2]
+:   - [n3, TT, TT, TT, TT, n1, TT, p3, TT, TT, l1, n2]
+:   - [X0, l0, TT, TT, TT, l1, TT, l0, TT, TT, TT, l1]
+:   - [n3, TT, TT, TT, TT, n1, l0, TT, TT, TT, TT, l1]
+:   - [X0, l3, TT, TT, TT, l2, n3, TT, TT, TT, TT, TT, n1]
+:   - [X0, l3, TT, TT, l2, TT, l3, TT, TT, TT, TT, l2]
+:   - [X0, X0, l3, TT, l2, TT, TT, l3, TT, TT, TT, l2]
+:   - [X0, X0, l3, l2, TT, TT, TT, l3, TT, TT, l2]
+:   - [X0, X0, X0, n2, TT, TT, TT, TT, l3, TT, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, l3, l2]
+:   - [X0, X0, X0, X0, X0, X0, X0, X0, X0, n2]
 
 #+NAME: mapFormatter
 This takes mapData and formats is for easier rendering in the map view
