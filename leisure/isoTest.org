@@ -3,12 +3,14 @@
 :hidden: true
 :end:
 #+BEGIN_SRC coffee :results def
+console.log "TOP DEF", this
 {Solomon} = window
 if !window.Solomon
-  @Solomon = {}
-  {@Handlebars} = Leisure
-  {define: @defineL, @Monad2} = Leisure.Runtime
-  @rz = resolve
+  window.Solomon = {}
+  window.Handlebars = Leisure.Handlebars
+  window.defineL = Leisure.Runtime.define
+  window.Monad2 = Leisure.Runtime.Monad2
+  window.rz = resolve
 #+END_SRC
 * Map
 #+BEGIN_HTML :var mapData
@@ -26,7 +28,7 @@ if !window.Solomon
 #+END_HTML
 * Map def
 #+NAME: mapData
-#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 2
+#+BEGIN_SRC yaml :post mapFormatter(*this*) :results dynamic :flowlevel 2 :exports code
 - - X0
   - X0
   - X0
@@ -155,6 +157,15 @@ This takes mapData and formats is for easier rendering in the map view
 #+BEGIN_SRC coffee :var mapData
 _.map mapData, (level)-> _.map level, (v)-> _.map _.chunk(v, 2), (i)-> i.join ''
 #+END_SRC
+* Primitives for Leisure
+#+BEGIN_SRC coffee :results def
+{right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
+
+defineL 'updateStyles', (id, str)->
+  new Monad2 (env, cont)->
+    $("##{rz id}").remove()
+    $(document.head).append "<style id='#{rz id}'>#{resolve str}</style>"
+#+END_SRC
 * Map Tile Styles
 #+BEGIN_SRC leisure :results def
 buildStyles data = strCat (do
@@ -192,9 +203,9 @@ changeData
 #+END_SRC
 
 #+BEGIN_SRC leisure :results def
-changeData
+do
   url <- run getImage 'tiles/tileset_cave_1.png'
-  data <- run getData 'tileSets'
+  data <- run getDataUnsafe 'tileSets'
   updateStyles 'tile-styles' s['.tile-sprite {\n'
     s['  background-image: url(' url ');\n']
     '  background-repeat: no-repeat;\n'
@@ -305,12 +316,3 @@ Handlebars.registerHelper 'if_even', (conditional, options)->
 }
 #+END_SRC
 * Leisure code
-** Primitives for Leisure
-#+BEGIN_SRC coffee :results def
-{right, left, isPartial, partialCall, Monad2} = Leisure.Runtime
-
-defineL 'updateStyles', (id, str)->
-  new Monad2 (env, cont)->
-    $("##{rz id}").remove()
-    $(document.head).append "<style id='#{rz id}'>#{resolve str}</style>"
-#+END_SRC
